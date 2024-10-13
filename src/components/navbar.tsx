@@ -43,8 +43,8 @@ export const Navbar = () => {
   );
 
   return (
-    <NextUINavbar  className="flex mx-auto max-w-4xl border" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full border" justify="start">
+    <NextUINavbar  className="flex mx-auto max-w-4xl " position="sticky">
+      <NavbarContent className="basis-1/5 sm:basis-full " justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <Logo />
@@ -70,7 +70,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full border"
+        className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">

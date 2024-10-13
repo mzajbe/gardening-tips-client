@@ -37,7 +37,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
         // Fetch followers, following, and posts
         const responses = await Promise.all([
-          fetch("http://localhost:5000/api/v1/users/followers", {
+          fetch(`http://localhost:5000/api/v1/follow/${userId}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -57,7 +57,10 @@ const Dashboard: React.FC<DashboardProps> = () => {
         const [followersData, followingData, postsData] =
           await Promise.all(responses.map((response) => response.json()));
 
-        setFollowers(followersData.count || 0);
+          console.log(followersData.data.length);
+          
+
+        setFollowers(followersData.data.length || 0);
         setFollowing(followingData.count || 0);
         setPosts(postsData.data || []);
         setLoading(false);

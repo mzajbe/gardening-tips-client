@@ -33,7 +33,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }) => {
         
 
         const data = await response.json();
-        console.log(data);
+        
         
         setUpvotes(data.data.upvoteCount);
         setDownvotes(data.data.downvoteCount);
