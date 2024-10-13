@@ -4,7 +4,7 @@
 
 
 const VotesCount = async({params,}:{params:{postId:string}}) => {
-    const res = await fetch(`http://localhost:5000/api/v1/votes/${params.postId}`,{
+    const res = await fetch(`https://gardening-server.vercel.app/api/v1/votes/${params.postId}`,{
         cache:"no-store",
     })
 

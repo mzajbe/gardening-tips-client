@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-console */
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable prettier/prettier */
@@ -5,7 +6,6 @@
 // import { cookies } from 'next/headers';
 import { parseCookies } from "nookies";
 import { useState, useEffect } from "react";
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
 
@@ -13,7 +13,12 @@ interface VoteButtonProps {
   postId: string;
 }
 
-const VoteButton: React.FC<VoteButtonProps> = ({ postId }) => {
+export interface PageProps {
+  params?: any; // Specific types can be added here if needed
+  searchParams?: any;
+}
+
+const VoteButton: React.FC<VoteButtonProps> = ({ postId }:{postId:string}) => {
   const [upvotes, setUpvotes] = useState(0);
   const [downvotes, setDownvotes] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +29,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }) => {
     const fetchVotes = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/v1/votes/${postId}`
+          `https://gardening-server.vercel.app/api/v1/votes/${postId}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch vote counts");
@@ -55,7 +60,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }) => {
 
       if (!accessToken) throw new Error("Access token is missing");
 
-      const res = await fetch("http://localhost:5000/api/v1/votes", {
+      const res = await fetch("https://gardening-server.vercel.app/api/v1/votes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -29,8 +29,8 @@ const Sidebar:React.FC<SidebarProps> = (props) => {
       <nav className="flex flex-col space-y-6">
         <Link href="/dashboard" className="text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500">Dashboard</Link>
         <Link href="/create-post" className="text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500">Create Post</Link>
-        <Link href="/image-gallery" className="text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500">Image Gallery</Link>
-        <Link href="/contact-us" className="text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500">Contact Us</Link>
+        {/* <Link href="/image-gallery" className="text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500">Image Gallery</Link> */}
+        {/* <Link href="/contact-us" className="text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500">Contact Us</Link> */}
         <Link href="/about-us" className="text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500">About Us</Link>
       </nav>
 

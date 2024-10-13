@@ -37,17 +37,17 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
         // Fetch followers, following, and posts
         const responses = await Promise.all([
-          fetch(`http://localhost:5000/api/v1/follow/${userId}`, {
+          fetch(`https://gardening-server.vercel.app/api/v1/follow/${userId}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           }),
-          fetch("http://localhost:5000/api/v1/users/following", {
+          fetch("https://gardening-server.vercel.app/api/v1/users/following", {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           }),
-          fetch(`http://localhost:5000/api/v1/posts/user-posts/${userId}`, {
+          fetch(`https://gardening-server.vercel.app/api/v1/posts/user-posts/${userId}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

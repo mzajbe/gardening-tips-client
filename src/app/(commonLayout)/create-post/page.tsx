@@ -73,7 +73,7 @@ const page: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/v1/posts/create",
+        "https://gardening-server.vercel.app/api/v1/posts/create",
         {
           method: "POST",
           headers: {
