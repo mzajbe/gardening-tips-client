@@ -6,7 +6,8 @@
 import { parseCookies } from "nookies";
 import { useState, useEffect } from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
-
+import { BiUpvote } from "react-icons/bi";
+import { BiDownvote } from "react-icons/bi";
 
 interface VoteButtonProps {
   postId: string;
@@ -29,12 +30,8 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }) => {
           throw new Error("Failed to fetch vote counts");
         }
 
-        
-        
-
         const data = await response.json();
-        
-        
+
         setUpvotes(data.data.upvoteCount);
         setDownvotes(data.data.downvoteCount);
         setUserVote(data.data.voteType);
@@ -70,14 +67,10 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }) => {
         }),
       });
 
-      
-      
-
       if (!res.ok) throw new Error("Failed to cast vote");
 
       const data = await res.json();
       console.log(data);
-      
 
       // Update vote counts based on the response
       if (voteType === "upvote") {
@@ -110,25 +103,27 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }) => {
   }
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex ">
       <button
         onClick={() => handleVote("upvote")}
         className={`${
-          userVote === "upvote" ? "bg-green-700" : "bg-green-500"
-        } text-white px-4 py-2 rounded-lg`}
+          userVote === "upvote" ? "bg-green-700" : "bg-black"
+        } text-white    rounded-lg flex items-center space-x-2`}
       >
-        Upvote ({upvotes})
+        <BiUpvote /> {/* Upvote icon */}
+        <span>({upvotes})</span>
       </button>
-      {/* <ThumbUpIcon /> */}
+
       <button
         onClick={() => handleVote("downvote")}
         className={`${
-          userVote === "downvote" ? "bg-red-700" : "bg-red-500"
-        } text-white px-4 py-2 rounded-lg`}
+          userVote === "downvote" ? "bg-red-700" : "bg-black"
+        } text-white px-4 py-2 rounded-lg flex items-center space-x-2`}
       >
-        Downvote ({downvotes})
+        <BiDownvote /> {/* Downvote icon */}
+        <span>({downvotes})</span>
       </button>
-    </div>     
+    </div>
   );
 };
 

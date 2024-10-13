@@ -73,7 +73,7 @@ const Posts = async () => {
                 </span>  
               </div>  
 
-              <div className="mt-4">  
+              <div className="mt-4 ">  
                 <VoteButton postId={post._id} />  
               </div>  
             </div>  
