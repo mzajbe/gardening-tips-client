@@ -30,7 +30,8 @@ const FollowButton: React.FC<FollowButtonProps> = ({ followingId }) => {
 
         setFollowerId(userId);
       } catch (error) {
-        toast.error("Error retrieving user ID from token");
+        console.log(error);
+        
       }
     };
 

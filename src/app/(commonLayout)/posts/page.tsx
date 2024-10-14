@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 /* eslint-disable import/order */
 /* eslint-disable padding-line-between-statements */
@@ -6,14 +7,42 @@
 
 import { useState, useEffect } from "react";
 import nexiosInstance from "@/src/config/nexios.config";
-
 import FollowButton from "@/src/components/followButton/FollowButton";
 import Link from "next/link";
 import VoteButton from "../vote/VoteButton";
+import CommentBtn from "@/src/components/comment/Comment";
+import { parseCookies } from "nookies";
+import { jwtDecode } from "jwt-decode";
 
 const Posts = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingPostId, setEditingPostId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
+  const [userId, setUserId] = useState<string>("");
+
+  const cookies = parseCookies();
+  const accessToken = cookies.accessToken;
+
+  
+  
+
+  useEffect(() => {
+    const fetchUserFromToken = () => {
+      try {
+        if (!accessToken) throw new Error("Access token is missing");
+        const decodedToken: any = jwtDecode(accessToken);
+        const userId = decodedToken._id;
+        if (!userId) throw new Error("User ID not found in token");
+        setUserId(userId);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUserFromToken();
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -31,6 +60,57 @@ const Posts = () => {
 
     fetchPosts();
   }, []);
+
+  console.log(userId);
+
+  const handleEditPost = async (postId: string) => {
+    try {
+      const response = await nexiosInstance.put(`/posts/update/${postId}`, {
+        userId,
+        content: editContent,
+        title: editTitle,
+      });
+      if (response.status === 200) {
+        setPosts(
+          posts.map((post) =>
+            post._id === postId
+              ? { ...post, title: editTitle, content: editContent }
+              : post
+          )
+        );
+        setEditingPostId(null);
+      }
+    } catch (error) {
+      console.error("Error updating post:", error);
+    }
+  };
+
+  
+  
+
+  const handleDeletePost = async (postId: string) => {
+    try {
+      const response = await nexiosInstance.delete(`/posts/delete/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: { userId },
+        
+        
+      });
+
+      
+      
+
+      if (response.status === 200) {
+        setPosts(posts.filter((post) => post._id !== postId));
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
+  
 
   if (loading) {
     return <p>Loading posts...</p>;
@@ -54,7 +134,7 @@ const Posts = () => {
                   />
                   <span className="font-semibold text-gray-800 dark:text-white">
                     <Link href={`/user/${post.author._id}`}>
-                      {post.author.name}s profile
+                      {post.author.name}
                     </Link>
                   </span>
                 </div>
@@ -63,16 +143,45 @@ const Posts = () => {
                 </div>
               </div>
 
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-200 mb-2">
-                {post.title}
-              </h2>
+              {editingPostId === post._id ? (
+                <div>
+                  <input
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    className="w-full p-2 mb-2 border rounded"
+                  />
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    className="w-full p-2 mb-2 border rounded"
+                  />
+                  <button
+                    onClick={() => handleEditPost(post._id)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setEditingPostId(null)}
+                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-gray-200 mb-2">
+                    {post.title}
+                  </h2>
+                  <div
+                    className="mt-2 text-gray-700 dark:text-gray-300 mb-3"
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                </>
+              )}
 
-              <div
-                className="mt-2 text-gray-700 dark:text-gray-300 mb-3"
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
-
-              {post.images?.length > 0 && (
+              {post.images && post.images.length > 0 && post.images[0] && (
                 <img
                   src={post.images[0]}
                   alt={post.title}
@@ -89,8 +198,29 @@ const Posts = () => {
                 </span>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-4 flex items-center space-x-2">
                 <VoteButton postId={post._id as string} />
+                <CommentBtn postId={post._id as string} />
+                {userId === post.author._id && (
+                  <>
+                    <button
+                      onClick={() => {
+                        setEditingPostId(post._id);
+                        setEditTitle(post.title);
+                        setEditContent(post.content);
+                      }}
+                      className="bg-yellow-500 text-white px-4 py-2 rounded"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeletePost(post._id)}
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))

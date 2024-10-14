@@ -45,7 +45,8 @@ const page: React.FC = () => {
 
         setAuthorId(userId);
       } catch (error) {
-        toast.error("Error retrieving user ID from token");
+        console.log(error);
+        
       }
     };
 

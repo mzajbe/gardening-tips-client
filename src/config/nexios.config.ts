@@ -7,6 +7,9 @@ const nexiosInstance = new Nexios({
     headers:{
         "Content-type":"application/json",
     },
+    credentials: "include",
+    
+    // withCredentials: true,
 });
 
 export default nexiosInstance;
