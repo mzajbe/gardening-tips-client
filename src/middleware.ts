@@ -5,7 +5,7 @@ import { decode } from "./helpers/jwtHelpers";
 
 /* eslint-disable prettier/prettier */
 
-const authRoutes = ["/login", "signup"];
+const authRoutes = ["/login", "/signup"];
 
 export async function middleware(request: NextRequest) {
   console.log(request, "middleware");
@@ -49,6 +49,7 @@ export const config = {
   matcher: [
     "/login",
     "/signup",
+    // "/profile",
     "/dashboard/:page*",
     "/admin-dashboard/:page*",
   ],

@@ -1,4 +1,6 @@
+/* eslint-disable import/order */
 /* eslint-disable prettier/prettier */
+"use client";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -19,8 +21,24 @@ import clsx from "clsx";
 import { siteConfig } from "@/src/config/site";
 import { ThemeSwitch } from "@/src/components/theme-switch";
 import { SearchIcon, Logo } from "@/src/components/icons";
+import { logout } from "../services/AuthService";
+// import router from "next/router";
+
+const handleLogout = () => {
+  logout();
+  // userLoading(true);
+
+  // if (protectedRoutes.some((route) => pathname.match(route))) {
+    // router.push("/");
+  // }
+};
 
 export const Navbar = () => {
+
+
+
+
+  
   const searchInput = (
     <Input
       aria-label="Search"
@@ -43,12 +61,14 @@ export const Navbar = () => {
   );
 
   return (
-    <NextUINavbar  className="flex mx-auto max-w-4xl " position="sticky">
+    <NextUINavbar className="flex mx-auto max-w-4xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full " justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
-            <p className="font-bold text-inherit">Gardening</p>
+            {/* <Logo /> */}
+            <p className="text-3xl font-bold text-indigo-600 hover:text-indigo-800 transition duration-300 ease-in-out">
+              COSMOS
+            </p>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
@@ -57,7 +77,7 @@ export const Navbar = () => {
               <NextLink
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                  "data-[active=true]:text-primary data-[active=true]:font-medium"
                 )}
                 color="foreground"
                 href={item.href}
@@ -69,12 +89,15 @@ export const Navbar = () => {
         </ul>
       </NavbarContent>
 
+      <div>
+        <button onClick={() => handleLogout()}>Logout</button>
+      </div>
+
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
-          
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>

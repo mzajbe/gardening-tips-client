@@ -7,6 +7,7 @@ import { Fragment } from "react";
 import { parseCookies } from "nookies";
 import { jwtDecode } from "jwt-decode";
 import { TComment } from "./types.comment";
+import { toast } from "sonner";
 
 const CommentBtn = ({ postId }: { postId: string }) => {
   const [comments, setComments] = useState<TComment[]>([]);
@@ -73,6 +74,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
         console.log("Error posting comment:", res.statusText);
       }
     } else {
+      toast.error('Please login First!')
       console.log("User is not authenticated.");
     }
   };

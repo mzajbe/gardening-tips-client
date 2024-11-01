@@ -5,12 +5,15 @@ import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
-import { ToastContainer } from 'react-toastify';  
-import 'react-toastify/dist/ReactToastify.css'; 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { siteConfig } from "@/src/config/site";
 import { fontSans } from "@/src/config/fonts";
-import { Navbar } from "@/src/components/navbar";
+// import { Navbar } from "@/src/components/navbar";
 import Sidebar from "../components/sidebar/Sidebar";
+
+import { Toaster, toast } from "sonner";
+import Navbar from "../components/navbar/Navbar";
 
 export const metadata: Metadata = {
   title: {
@@ -47,7 +50,9 @@ export default function RootLayout({
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
             {/* Navbar at the top */}
-            <Navbar />
+            {/* <Navbar /> */}
+            <Navbar></Navbar>
+
 
             {/* Centering wrapper */}
             <div className="flex justify-center w-full">
@@ -59,7 +64,8 @@ export default function RootLayout({
 
                 {/* Main content area */}
                 <main className="flex-1 ml-12">{children}</main>
-                <ToastContainer />
+                {/* <ToastContainer /> */}
+                <Toaster position="top-center" richColors />
               </div>
             </div>
 

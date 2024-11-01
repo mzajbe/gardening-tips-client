@@ -25,9 +25,6 @@ const Posts = () => {
   const cookies = parseCookies();
   const accessToken = cookies.accessToken;
 
-  
-  
-
   useEffect(() => {
     const fetchUserFromToken = () => {
       try {
@@ -85,22 +82,16 @@ const Posts = () => {
     }
   };
 
-  
-  
-
   const handleDeletePost = async (postId: string) => {
     try {
       const response = await nexiosInstance.delete(`/posts/delete/${postId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        params: { userId },
-        
-        
+        params: {
+          userId, // Send the userId as a query parameter
+        },
       });
-
-      
-      
 
       if (response.status === 200) {
         setPosts(posts.filter((post) => post._id !== postId));
@@ -110,11 +101,12 @@ const Posts = () => {
     }
   };
 
-  
-
   if (loading) {
     return <p>Loading posts...</p>;
   }
+
+  console.log(posts);
+  
 
   return (
     <div className="flex justify-center p-6 border bg-gray-100 dark:bg-black">
@@ -200,6 +192,7 @@ const Posts = () => {
 
               <div className="mt-4 flex items-center space-x-2">
                 <VoteButton postId={post._id as string} />
+
                 <CommentBtn postId={post._id as string} />
                 {userId === post.author._id && (
                   <>

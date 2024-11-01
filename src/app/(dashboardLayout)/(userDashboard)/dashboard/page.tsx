@@ -3,15 +3,9 @@
 import { useState, useEffect } from "react";
 import { parseCookies } from "nookies"; // Assuming your access token is stored in cookies
 import { jwtDecode } from "jwt-decode";
+import { Post } from "../../../../../types";
 
-interface Post {  
-    _id: string; // Unique identifier for the post  
-    title: string; // Title of the post  
-    content: string; // Content of the post  
-    categories: string[]; // Array of categories  
-    images: string[]; // Array of image URLs  
-    createdAt: string; // Creation date in ISO format  
-  } 
+ 
 
 interface DashboardProps {}
 
