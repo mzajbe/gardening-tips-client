@@ -1,53 +1,32 @@
-# Next.js & NextUI Template
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+# Cosmos - A gardening tips website (client)
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+Welcome to the client repository of the Gardening Tips & Advice Platform, a website created to help gardening enthusiasts share, discover, and learn from each other's gardening knowledge.
 
-## Technologies Used
+🌟 Features
+- User Authentication: Secure login with JWT and Google OAuth.
+- Create & View Posts: Users can create, update, delete, and view gardening posts with rich text and images.
+- Voting & Comments: Upvote, downvote, and comment on posts.
+- Favorites & Saved Posts: Save favorite posts and access them later in a dedicated section.
+- Premium Subscription: Verified users can subscribe for premium gardening content.
+- Image Gallery: A gallery of recent gardening images sourced from user posts.
+- Contact Form: Users can contact site administrators via an animated, interactive contact form.
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+🛠 Tech Stack
+- Frontend: Next.js, TypeScript, Tailwind CSS
+- HTTP Requests: Axios (Nexios custom instance)
+- Icons: React Icons
 
-## How to Use
-
-### Use the template with create-next-app
-
-To create a new project based on this template using `create-next-app`, run the following command:
-
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
+🚀 Installation
+### Clone the repository
+ ```
+git clone https://github.com/mzajbe/gardening-tips-client
 ```
+cd gardening-tips-client
 
-### Install dependencies
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
 
-```bash
-npm install
-```
+## live link
 
-### Run the development server
+https://gardening-tips-platform-client-nine.vercel.app/
 
-```bash
-npm run dev
-```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## License
-
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).

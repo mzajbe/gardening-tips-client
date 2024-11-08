@@ -13,4 +13,6 @@ export interface Post {
   categories: string[]; // Array of categories  
   images: string[]; // Array of image URLs  
   createdAt: string; // Creation date in ISO format  
+  postId:any;
+  data:any;
 }

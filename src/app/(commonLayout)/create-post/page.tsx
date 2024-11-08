@@ -27,12 +27,10 @@ const page: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<string>("");
-  // const [imageUrl, setImageUrl] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isPremium, setIsPremium] = useState<boolean>(false);
   const [authorId, setAuthorId] = useState<string>("");
 
-  // Extract user ID from the JWT token
   useEffect(() => {
     const fetchUserFromToken = () => {
       try {
@@ -43,35 +41,30 @@ const page: React.FC = () => {
 
         // Decode the token to get the user ID
         const decodedToken: any = jwtDecode(accessToken);
-        console.log(decodedToken._id);
+        // console.log(decodedToken._id);
 
         const userId = decodedToken._id;
-        console.log(userId);
+        // console.log(userId);
 
         setAuthorId(userId);
       } catch (error) {
         console.log(error);
-        
       }
     };
 
-    fetchUserFromToken(); // Extract user when the page loads
+    fetchUserFromToken();
   }, []);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value); // Set the selected category
+    setCategory(e.target.value);
   };
 
-  console.log(category);
+  // console.log(category);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     setImageFile(file);
   };
-  
-
-  
-  
 
   const handleSubmit = async () => {
     if (!authorId) {
@@ -79,37 +72,13 @@ const page: React.FC = () => {
       return;
     }
 
-    // const post = {
-    //   title: title,
-    //   content: content,
-    //   author: authorId, // Use the current logged-in user ID from the token
-    //   categories: category,
-    //   images: [imageUrl],
-    //   isPremium: isPremium,
-    // };
-
-    // console.log(post);
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
     formData.append("author", authorId);
     formData.append("categories", category);
-    if (imageFile) formData.append("itemImages", imageFile); // Attach image file
+    if (imageFile) formData.append("itemImages", imageFile);
     formData.append("isPremium", String(isPremium));
-    
-
-    // try {
-    //   const response = await fetch(
-    //     "https://gardening-server.vercel.app/api/v1/posts/create",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(post),
-    //     }
-    //   );
 
     try {
       const response = await fetch(
@@ -126,13 +95,6 @@ const page: React.FC = () => {
 
       const data = await response.json();
       console.log("Post created:", data);
-
-      // Reset fields
-      // setTitle("");
-      // setContent("");
-      // setCategory("");
-      // setImageUrl("");
-      // setIsPremium(false);
 
       // Reset fields
       setTitle("");
@@ -190,6 +152,7 @@ const page: React.FC = () => {
         onChange={handleImageChange}
         className="w-full mb-4 px-2 py-2 border rounded"
       />
+      <p className="text-red-400">(Image size must be under 2 MB)</p>
 
       <label className="flex items-center mb-4">
         <input
