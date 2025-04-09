@@ -28,8 +28,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
+    <nav className="bg-gray shadow-lg">
+      <div className="max-w-[980px] mx-auto px-4">
         <div className="flex justify-between h-16">
           {/* Left side - Company Name */}
 
