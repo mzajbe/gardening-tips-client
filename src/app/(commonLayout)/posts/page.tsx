@@ -244,7 +244,7 @@ const Posts = () => {
 
                   <FavouriteBtn postId={post._id}></FavouriteBtn>
                   
-                  <FaShare onClick={() => copyToClipboard(post._id)}/>
+                  {/* <FaShare onClick={() => copyToClipboard(post._id)}/> */}
                   {copySuccess && (
                     <div className="mt-4 text-green-600 font-semibold text-center">
                       {copySuccess}

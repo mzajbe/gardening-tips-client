@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable prettier/prettier */
@@ -80,6 +81,9 @@ const page: React.FC = () => {
     if (imageFile) formData.append("itemImages", imageFile);
     formData.append("isPremium", String(isPremium));
 
+    
+    
+
     try {
       const response = await fetch(
         "https://gardening-server.vercel.app/api/v1/posts/create",
@@ -88,6 +92,9 @@ const page: React.FC = () => {
           body: formData,
         }
       );
+
+      // console.log(response);
+      
 
       if (!response.ok) {
         throw new Error("Failed to create post");
