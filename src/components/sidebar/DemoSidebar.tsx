@@ -9,7 +9,6 @@ import {
   PencilLine,
   SunMoon,
   Menu,
-  X,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -17,7 +16,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../u
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
-import { cn } from "@/src/lib/utils";
 
 
 
@@ -28,7 +26,6 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     if (isDarkMode) document.documentElement.classList.add("dark");
@@ -36,7 +33,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
   }, [isDarkMode]);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const navItems = [
     { href: "/premium", label: "Premium", icon: CheckCheck },
@@ -48,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   // ---- Sidebar Core ----
   const SidebarContent = () => (
-    <Card className="w-64 h-full flex flex-col justify-between p-4 shadow-md border-none bg-muted/30 dark:bg-muted/20 backdrop-blur-sm transition-all duration-300">
+    <Card className="w-64 h-full flex flex-col justify-between p-4 shadow-lg border-none bg-muted/30 dark:bg-muted/20 backdrop-blur-sm">
       <nav className="space-y-4">
         {navItems.map(({ href, label, icon: Icon }) => (
           <Link
@@ -78,29 +74,12 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   return (
     <>
-      {/* Desktop toggle button (top-left corner) */}
-      <div className="hidden lg:flex items-center gap-2 fixed top-4 left-4 z-50">
-        <Button
-          onClick={toggleSidebar}
-          variant="outline"
-          size="icon"
-          className="shadow-sm"
-        >
-          {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
-      </div>
-
       {/* Desktop Sidebar */}
-      <div
-        className={cn(
-          "hidden lg:block fixed top-0 left-0 h-screen transition-all duration-300 z-40",
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        )}
-      >
+      <div className="hidden lg:block sticky top-0 h-screen">
         <SidebarContent />
       </div>
 
-      {/* Mobile Sidebar (Sheet Drawer) */}
+      {/* Mobile Sidebar */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <Sheet>
           <SheetTrigger asChild>
