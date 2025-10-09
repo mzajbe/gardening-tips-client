@@ -152,14 +152,14 @@ const Posts = () => {
   // console.log(postspdf.current);
 
   return (
-    <div className="flex justify-center p-6 border bg-gray-100 dark:bg-black">
-      <div className="w-full max-w-3xl bg-white dark:bg-black shadow-lg rounded-lg p-6">
+    <div className="flex justify-center p-6 border  dark:bg-black">
+      <div className="w-full max-w-3xl  shadow-lg rounded-lg p-6">
         <div ref={postspdf}>
           {posts.length > 0 ? (
             posts.map((post) => (
               <div
                 key={post._id}
-                className="relative p-4 mb-6 bg-gray-50 shadow-md rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-700 transition-transform duration-300 hover:shadow-xl"
+                className="relative p-4 mb-6  shadow-md rounded-lg border border-gray-300  dark:border-gray-700 transition-transform duration-300 hover:shadow-xl"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center">
@@ -169,7 +169,7 @@ const Posts = () => {
                       className="w-10 h-10 rounded-full border border-gray-300 mr-4"
                     />
 
-                    <span className="font-semibold text-gray-800 dark:text-white">
+                    <span className="font-semibold ">
                       <Link href={`/user/${post.author._id}`}>
                         {post.author.name}
                       </Link>
@@ -186,18 +186,18 @@ const Posts = () => {
                       type="text"
                       value={editTitle}
                       onChange={(e) => setEditTitle(e.target.value)}
-                      className="w-full p-2 mb-2 border rounded dark:bg-gray-700 dark:text-white"
+                      className="w-full p-2 mb-2 border rounded "
                       placeholder="Edit title"
                     />
                     <textarea
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
-                      className="w-full p-2 mb-2 border rounded dark:bg-gray-700 dark:text-white"
+                      className="w-full p-2 mb-2 border rounded "
                       placeholder="Edit content"
                     />
                     <button
                       onClick={() => handleEditPost(post._id)}
-                      className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                      className="bg-blue-500  px-4 py-2 rounded mr-2"
                     >
                       Save
                     </button>
@@ -210,11 +210,11 @@ const Posts = () => {
                   </div>
                 ) : (
                   <>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-200 mb-2">
+                    <h2 className="text-xl font-bold mb-2">
                       {post.title}
                     </h2>
                     <div
-                      className="mt-2 text-gray-700 dark:text-gray-300 mb-3"
+                      className="mt-2 mb-3"
                       dangerouslySetInnerHTML={{ __html: post.content }}
                     />
                   </>
@@ -229,10 +229,10 @@ const Posts = () => {
                 )}
 
                 <div className="flex justify-between items-center mt-4">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="text-sm ">
                     Category: {post.categories.join(", ")}
                   </span>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="text-sm ">
                     {new Date(post.createdAt).toLocaleDateString()}
                   </span>
                 </div>
@@ -264,20 +264,20 @@ const Posts = () => {
                           setEditTitle(post.title);
                           setEditContent(post.content);
                         }}
-                        className="bg-yellow-500 text-white px-4 py-2 rounded"
+                        className="bg-yellow-500  px-4 py-2 rounded"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDeletePost(post._id)}
-                        className="bg-red-500 text-white px-4 py-2 rounded"
+                        className="bg-red-500  px-4 py-2 rounded"
                       >
                         Delete
                       </button>
                     </>
                   )}
                 </div>
-                <Quets></Quets>
+                {/* <Quets></Quets> */}
               </div>
             ))
           ) : (

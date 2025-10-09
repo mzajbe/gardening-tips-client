@@ -29,12 +29,12 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-};
+// export const viewport: Viewport = {
+//   themeColor: [
+//     { media: "(prefers-color-scheme: light)", color: "white" },
+//     { media: "(prefers-color-scheme: dark)", color: "black" },
+//   ],
+// };
 
 export default function RootLayout({
   children,
@@ -46,36 +46,36 @@ export default function RootLayout({
       <head />
       <body
         className={clsx(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased ",
           fontSans.variable
         )}
       >
         <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-        {/* <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}> */}
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}> */}
           <div className="relative flex flex-col h-screen">
             {/* Navbar at the top */}
             <Navbar />
 
             {/* Centering wrapper */}
             <div className="flex justify-center w-full flex-1">
-              <div className="flex flex-col md:flex-row max-w-5xl w-full">
+              <div className="flex flex-col max-w-7xl border md:flex-row  w-full">
                 {/* Sidebar */}
 
                 <Sidebar />
 
                 {/* Main content area */}
-                <main className="flex-1 lg:ml-64 p-4 transition-all duration-300">
+                <main className="flex-1  p-4 transition-all duration-300">
                   {children}
                 </main>
               </div>
             </div>
           </div>
-        {/* </Providers> */}
+          {/* </Providers> */}
         </ThemeProvider>
       </body>
     </html>
