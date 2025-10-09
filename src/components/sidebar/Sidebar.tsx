@@ -13,14 +13,17 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { cn } from "@/src/lib/utils";
-
-
-
 
 interface SidebarProps {
   className?: string;
@@ -48,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   // ---- Sidebar Core ----
   const SidebarContent = () => (
-    <Card className="w-64 h-full flex flex-col justify-between p-4 shadow-md border-none bg-muted/30 dark:bg-muted/20 backdrop-blur-sm transition-all duration-300">
+    <Card className="w-64 h-full flex flex-col justify-between p-4 shadow-md border-none bg-muted/30 dark:bg-muted/20 backdrop-blur-sm transition-all duration-300 ">
       <nav className="space-y-4">
         {navItems.map(({ href, label, icon: Icon }) => (
           <Link
@@ -62,38 +65,42 @@ const Sidebar: React.FC<SidebarProps> = () => {
         ))}
       </nav>
 
-      <div className="mt-6">
+      {/* <div className="mt-6">
         <Separator className="my-3" />
         <Button
           onClick={toggleTheme}
           variant="outline"
-          className="w-full flex items-center gap-2"
+          className="w-full flex items-center gap-2 mb-20"
         >
           <SunMoon className="w-4 h-4" />
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </Button>
-      </div>
+      </div> */}
     </Card>
   );
 
   return (
     <>
       {/* Desktop toggle button (top-left corner) */}
-      <div className="hidden lg:flex items-center gap-2 fixed top-4 left-4 z-50">
+      <div className="hidden lg:flex items-center gap-2 fixed top-4 left-4 z-50 ">
         <Button
           onClick={toggleSidebar}
           variant="outline"
           size="icon"
           className="shadow-sm"
         >
-          {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {isSidebarOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
         </Button>
       </div>
 
       {/* Desktop Sidebar */}
       <div
         className={cn(
-          "hidden lg:block fixed top-0 left-0 h-screen transition-all duration-300 z-40",
+          "hidden lg:block fixed top-0 left-0 h-screen transition-all duration-300 z-40 border  mt-16",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

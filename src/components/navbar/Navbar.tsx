@@ -1,10 +1,22 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable prettier/prettier */
 "use client";
+
 import { logout } from "@/src/services/AuthService";
 import { Menu, Search, User } from "lucide-react";
 import Link from "next/link";
 import NextLink from "next/link";
 import { useState } from "react";
+import { Input } from "../ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const handleLogout = () => {
   logout();
@@ -18,6 +30,8 @@ const handleLogout = () => {
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const { setTheme } = useTheme();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -50,11 +64,14 @@ const Navbar = () => {
           {/* Middle - Search Bar (hidden on mobile) */}
           <div className="hidden md:flex items-center flex-1 mx-8">
             <div className="relative w-full max-w-md">
-              <input
+              {/* <input
                 type="text"
                 placeholder="Search..."
                 className="w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
               />
+              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" /> */}
+
+              <Input className="w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" />
               <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>
           </div>
@@ -68,6 +85,29 @@ const Navbar = () => {
             >
               <Menu className="h-6 w-6" />
             </button>
+
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                    <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                    <span className="sr-only">Toggle theme</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setTheme("light")}>
+                    Light
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("dark")}>
+                    Dark
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("system")}>
+                    System
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
 
             {/* User dropdown */}
             <div className="relative ml-3">
