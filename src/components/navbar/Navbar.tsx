@@ -17,6 +17,7 @@ import {
 import { Button } from "../ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import CosmosLogo from "../CosmosLogo";
 
 const handleLogout = () => {
   logout();
@@ -55,9 +56,10 @@ const Navbar = () => {
               href="/"
             >
               {/* <Logo /> */}
-              <p className="text-3xl font-bold text-indigo-600 hover:text-indigo-800 transition duration-300 ease-in-out">
+              {/* <p className="text-3xl font-bold text-indigo-600 hover:text-indigo-800 transition duration-300 ease-in-out">
                 COSMOS
-              </p>
+              </p> */}
+              <CosmosLogo></CosmosLogo>
             </NextLink>
           </div>
 

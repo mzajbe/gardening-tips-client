@@ -13,6 +13,7 @@ import { siteConfig } from "@/src/config/site";
 import { fontSans } from "@/src/config/fonts";
 // import { Navbar } from "@/src/components/navbar";
 import Sidebar from "../components/sidebar/Sidebar";
+import CosmosIcon from "../../public/Gemini_Generated_Image_e8twzbe8twzbe8tw.png"
 
 import { Toaster, toast } from "sonner";
 import Navbar from "../components/navbar/Navbar";
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   icons: {
-    icon: "/favicon.ico",
+    icon: CosmosIcon.src,
   },
 };
 

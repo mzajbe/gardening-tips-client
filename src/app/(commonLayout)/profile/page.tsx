@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import VoteButton from "../vote/VoteButton";
 import { FaCheckCircle } from "react-icons/fa";
 import SavesPostsModal from "@/src/components/modal/SavesPostsModal";
+import { Button } from "@/src/components/ui/button";
 
 const page = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -31,10 +32,8 @@ const page = () => {
   const [newName, setNewName] = useState("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-
   const handleOpenModalforSaved = () => setIsModalOpenforSaved(true);
   const handleCloseModal = () => setIsModalOpenforSaved(false);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,11 +59,14 @@ const page = () => {
               Authorization: `Bearer ${accessToken}`,
             },
           }),
-          fetch(`https://gardening-server.vercel.app/api/v1/following/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }),
+          fetch(
+            `https://gardening-server.vercel.app/api/v1/following/${userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          ),
           fetch(
             `https://gardening-server.vercel.app/api/v1/posts/user-posts/${userId}`,
             {
@@ -163,7 +165,7 @@ const page = () => {
   console.log(userInfo.isVerified);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 p-8 flex flex-col items-center">
+    <div className="min-h-screen  p-8 flex flex-col items-center">
       {/* Profile Section */}
       <div className="w-full max-w-3xl">
         <div className="flex flex-col items-center">
@@ -184,34 +186,39 @@ const page = () => {
             />
           )}
 
-          <h1 className="text-3xl font-bold mt-4 text-gray-800 dark:text-white">
+          <h1 className="text-3xl font-bold mt-4 ">
             {userInfo?.name || "Username"}
           </h1>
           <p className="text-gray-400 dark:text-gray-300 mt-1">
             Joined on {formattedDate}
           </p>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="border border-red-500 p-2 hover:bg-red-300 dark:border-red-700 dark:hover:bg-red-600"
-          >
-            Edit profile
-          </button>
-          <div>
-      <button
-        onClick={handleOpenModalforSaved}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Saved Posts
-      </button>
+          <div className="flex gap-x-2">
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              className="border  p-2 hover:bg-green-300 dark:border-red-700 dark:hover:bg-red-600"
+            >
+              Edit profile
+            </Button>
 
-      {isModalOpenforSaved && <SavesPostsModal onClose={handleCloseModal} />}
-    </div>
+            <Button
+              onClick={handleOpenModalforSaved}
+              className="px-4 py-2  rounded bg-green-300 "
+            >
+              Saved Posts
+            </Button>
+          </div>
+
+          <div>
+            {isModalOpenforSaved && (
+              <SavesPostsModal onClose={handleCloseModal} />
+            )}
+          </div>
         </div>
 
         {/* Edit Profile Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white dark:bg-gray-800 rounded-lg max-w-lg w-full shadow-lg transform transition-all duration-300 scale-100 hover:scale-105">
+            <div className=" bg-slate-500 rounded-lg max-w-lg w-full shadow-lg transform transition-all duration-300 scale-100 hover:scale-105">
               <div className="p-6">
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4 text-center">
                   Edit Profile
@@ -288,16 +295,12 @@ const page = () => {
 
         {/* Posts Section */}
         <div className="mt-12 w-full">
-          <h2 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">
-            Your Posts
-          </h2>
+          <h2 className="text-2xl font-bold mb-4 text-center ">Your Posts</h2>
           {posts.length > 0 ? (
             <div>
               {posts.map((post) => (
-                <div key={post._id} className="bg-gray-800 p-6 mb-6 rounded-lg">
-                  <h3 className="text-xl font-semibold text-white">
-                    {post.title}
-                  </h3>
+                <div key={post._id} className="border p-6 mb-6 rounded-lg">
+                  <h3 className="text-xl font-semibold ">{post.title}</h3>
                   <p className="text-gray-300 mt-2">{post.content}</p>
                   <div className="flex justify-between items-center mt-4">
                     <span className="text-sm text-gray-500 dark:text-gray-400">
