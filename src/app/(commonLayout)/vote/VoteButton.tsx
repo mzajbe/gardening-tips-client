@@ -114,8 +114,8 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }:{postId:string}) => {
       <button
         onClick={() => handleVote("upvote")}
         className={`${
-          userVote === "upvote" ? "text-blue-500" : "text-black"
-        } dark:text-white    rounded-lg flex items-center space-x-2`}
+          userVote === "upvote" ? "text-blue-500" : ""
+        }     rounded-lg flex items-center space-x-2`}
       >
         <BiUpvote /> {/* Upvote icon */}
         <span>({upvotes})</span>
@@ -124,8 +124,8 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }:{postId:string}) => {
       <button
         onClick={() => handleVote("downvote")}
         className={`${
-          userVote === "downvote" ? "text-red-700" : "text-black"
-        } dark:text-white px-4 py-2 rounded-lg flex items-center space-x-2`}
+          userVote === "downvote" ? "text-red-700" : ""
+        }  px-4 py-2 rounded-lg flex items-center space-x-2`}
       >
         <BiDownvote /> {/* Downvote icon */}
         <span>({downvotes})</span>

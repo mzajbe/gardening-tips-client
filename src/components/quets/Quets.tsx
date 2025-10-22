@@ -30,7 +30,7 @@ const Quets = () => {
   }, []);
 
   return (
-    <Card className="bg-white dark:bg-gray-800 shadow-md mb-6">
+    <Card className="shadow-md mb-6">
       <CardHeader className="p-4 border-b border-gray-200 dark:border-gray-700">
         <CardTitle className="text-lg font-semibold text-green-700 dark:text-green-400">
           Inspiring Gardening Quote
@@ -38,7 +38,7 @@ const Quets = () => {
       </CardHeader>
 
       <CardContent className="p-4">
-        <p className="text-sm text-gray-800 italic dark:text-gray-200" aria-label="quote">
+        <p className="text-sm italic " aria-label="quote">
           {quote}
         </p>
         {/* Optional: a small refresh button to get a new quote without reloading the page */}
