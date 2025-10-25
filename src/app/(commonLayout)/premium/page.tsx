@@ -73,7 +73,7 @@ const page = () => {
     router.push("/premium-content"); // Redirect to the premium content page after confirmation
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen  p-6">
       <h1 className="text-3xl font-bold text-center mb-4">
         Unlock Premium Gardening Content
       </h1>
@@ -82,17 +82,17 @@ const page = () => {
         tips, tricks, and resources!
       </p>
 
-      <div className="bg-gray-800 shadow-md rounded-lg p-8 max-w-md w-full">
+      <div className="border shadow-md rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-semibold text-center mb-4">
           Premium Access: $1.00/month
         </h2>
 
-        <ul className="mb-6 list-disc list-inside">
-          <li>🌿 Access to exclusive gardening tips and articles</li>
-          <li>🌷 Monthly Q&A sessions with gardening experts</li>
-          <li>🌼 Downloadable resources, checklists, and guides</li>
-          <li>🌻 Access to our gardening community forums</li>
-          <li>🌱 Special discounts for gardening products</li>
+        <ul className="mb-6 ">
+          <li>- Access to exclusive gardening tips and articles</li>
+          <li>- Monthly Q&A sessions with gardening experts</li>
+          <li>- Downloadable resources, checklists, and guides</li>
+          <li>- Access to our gardening community forums</li>
+          <li>- Special discounts for gardening products</li>
         </ul>
 
         <button

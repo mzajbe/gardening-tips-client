@@ -3,11 +3,14 @@
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable prettier/prettier */
 "use client";
+import { ThumbsDown, ThumbsUp } from "lucide-react";
 // import { cookies } from 'next/headers';
 import { parseCookies } from "nookies";
 import { useState, useEffect } from "react";
-import { BiUpvote } from "react-icons/bi";
-import { BiDownvote } from "react-icons/bi";
+// import { BiUpvote } from "react-icons/bi";
+// import { BiDownvote } from "react-icons/bi";
+// import { BiUpvote, BiDownvote } from "react-icons/bi";
+
 import { toast } from "sonner";
 
 interface VoteButtonProps {
@@ -19,7 +22,11 @@ export interface PageProps {
   searchParams?: any;
 }
 
-const VoteButton: React.FC<VoteButtonProps> = ({ postId }:{postId:string}) => {
+const VoteButton: React.FC<VoteButtonProps> = ({
+  postId,
+}: {
+  postId: string;
+}) => {
   const [upvotes, setUpvotes] = useState(0);
   const [downvotes, setDownvotes] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,17 +68,20 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }:{postId:string}) => {
 
       if (!accessToken) throw new Error("Access token is missing");
 
-      const res = await fetch("https://gardening-server.vercel.app/api/v1/votes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`, // Add the token to the request headers
-        },
-        body: JSON.stringify({
-          postId,
-          voteType,
-        }),
-      });
+      const res = await fetch(
+        "https://gardening-server.vercel.app/api/v1/votes",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`, // Add the token to the request headers
+          },
+          body: JSON.stringify({
+            postId,
+            voteType,
+          }),
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to cast vote");
 
@@ -100,7 +110,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }:{postId:string}) => {
       }
       setUserVote(voteType); // Update user's vote status
     } catch (error) {
-      toast.error('Please login first.');
+      toast.error("Please login first.");
       console.error(error);
     }
   };
@@ -117,7 +127,8 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }:{postId:string}) => {
           userVote === "upvote" ? "text-blue-500" : ""
         }     rounded-lg flex items-center space-x-2`}
       >
-        <BiUpvote /> {/* Upvote icon */}
+        {/* <BiUpvote />  */}
+        <ThumbsUp />
         <span>({upvotes})</span>
       </button>
 
@@ -127,7 +138,8 @@ const VoteButton: React.FC<VoteButtonProps> = ({ postId }:{postId:string}) => {
           userVote === "downvote" ? "text-red-700" : ""
         }  px-4 py-2 rounded-lg flex items-center space-x-2`}
       >
-        <BiDownvote /> {/* Downvote icon */}
+        {/* <BiDownvote />  */}
+        <ThumbsDown />
         <span>({downvotes})</span>
       </button>
     </div>

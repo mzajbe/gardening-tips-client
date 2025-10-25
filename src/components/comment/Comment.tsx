@@ -1,20 +1,22 @@
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable prettier/prettier */
 import { useState, useEffect, useCallback } from "react";
-import { FaRegComment } from "react-icons/fa";
+// import { FaRegComment } from "react-icons/fa";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { parseCookies } from "nookies";
 import { jwtDecode } from "jwt-decode";
 import { TComment } from "./types.comment";
 import { toast } from "sonner";
+import { MessageCircle } from "lucide-react";
 
 const CommentBtn = ({ postId }: { postId: string }) => {
   const [comments, setComments] = useState<TComment[]>([]);
   const [newComment, setNewComment] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
-  const [updatedCommentContent, setUpdatedCommentContent] = useState<string>("");
+  const [updatedCommentContent, setUpdatedCommentContent] =
+    useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
   const fetchUserFromToken = useCallback(() => {
@@ -74,7 +76,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
         console.log("Error posting comment:", res.statusText);
       }
     } else {
-      toast.error('Please login First!')
+      toast.error("Please login First!");
       console.log("User is not authenticated.");
     }
   };
@@ -133,7 +135,9 @@ const CommentBtn = ({ postId }: { postId: string }) => {
   return (
     <div className="">
       <div className="flex items-center space-x-2">
-        <FaRegComment
+        {/* <FaRegComment /> */}
+
+        <MessageCircle
           className="text-gray-500 hover:text-blue-500 cursor-pointer"
           size={24}
           onClick={() => setIsModalOpen(true)}

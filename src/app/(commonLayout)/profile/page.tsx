@@ -16,7 +16,7 @@ import { jwtDecode } from "jwt-decode";
 // import { FiEdit2 } from "react-icons/fi"; // Add edit icon
 import { toast } from "sonner";
 import VoteButton from "../vote/VoteButton";
-import { FaCheckCircle } from "react-icons/fa";
+// import { FaCheckCircle } from "react-icons/fa";
 import SavesPostsModal from "@/src/components/modal/SavesPostsModal";
 import { Button } from "@/src/components/ui/button";
 
@@ -178,13 +178,13 @@ const page = () => {
           </div>
 
           {/* Display blue tick if user is verified */}
-          {userInfo?.isVerified && (
+          {/* {userInfo?.isVerified && (
             <FaCheckCircle
               size={24}
               className="text-blue-500 ml-24 -mt-4"
               title="Verified user"
             />
-          )}
+          )} */}
 
           <h1 className="text-3xl font-bold mt-4 ">
             {userInfo?.name || "Username"}

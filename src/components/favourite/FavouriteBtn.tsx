@@ -6,7 +6,8 @@ import { jwtDecode } from "jwt-decode";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import Nexios from "axios";
-import { MdFavorite } from "react-icons/md";
+
+import { Save } from "lucide-react";
 
 interface FavouriteBtnProps {
   postId: string;
@@ -35,7 +36,7 @@ const FavouriteBtn = ({ postId }: FavouriteBtnProps) => {
             `https://gardening-server.vercel.app/api/v1/fav/${postId}`
           );
           console.log(response.data.data.postId);
-          if(response){
+          if (response) {
             setIsFavourite(true);
           }
 
@@ -72,12 +73,12 @@ const FavouriteBtn = ({ postId }: FavouriteBtnProps) => {
   };
 
   return (
-    <MdFavorite
+    <Save
       className={`cursor-pointer ${
         isFavourite ? "text-red-500" : "text-gray-400"
       }`}
       onClick={handleToggleFavourite}
-      size={24} // Adjust the size as needed
+      size={24}
     />
   );
 };
