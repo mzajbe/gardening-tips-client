@@ -86,7 +86,7 @@ const page: React.FC = () => {
 
     try {
       const response = await fetch(
-        "https://gardening-server.vercel.app/api/v1/posts/create",
+        "/api/proxy/posts/create",
         {
           method: "POST",
           body: formData,

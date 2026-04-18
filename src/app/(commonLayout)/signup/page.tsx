@@ -2,7 +2,6 @@
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable prettier/prettier */
 "use client";
-import nexiosInstance from "@/src/config/nexios.config";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -26,39 +25,32 @@ const SignupPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // Define the expected structure of the response data
-  interface SignupResponse {
-    success: boolean;
-    data: {
-      accessToken: string;
-    };
-    message?: string;
-  }
-
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
 
     try {
-      const response = await nexiosInstance.post<SignupResponse>("/auth/signup", { 
-        name, 
-        email, 
-        password, 
-        profilePic, 
-        role 
+      const response = await fetch("/api/proxy/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password, profilePic, role }),
       });
 
-      if (response.data.success) {
+      const data = await response.json();
+
+      if (data.success) {
         // Store the access token in localStorage or cookies if needed
-        localStorage.setItem("accessToken", response.data.data.accessToken);
+        localStorage.setItem("accessToken", data.data.accessToken);
 
         // Redirect to the dashboard or any protected route
         router.push("/dashboard");
       } else {
         // Handle signup failure (e.g., display an error message)
         console.error("Signup failed");
-        setError("Signup failed. Please try again.");
+        setError(data.message || "Signup failed. Please try again.");
       }
     } catch (error) {
       console.error("Error during signup:", error);

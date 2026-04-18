@@ -29,7 +29,7 @@ const page = () => {
         const fetchImages = async () => {
           try {
             // Fetch posts, typing response as `PostsResponse`
-            const response = await Nexios.get<PostsResponse>("https://gardening-server.vercel.app/api/v1/posts");
+            const response = await Nexios.get<PostsResponse>("/api/proxy/posts");
             // console.log(response);
       
             // Extract all image URLs from posts

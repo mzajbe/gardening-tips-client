@@ -49,18 +49,18 @@ const page = () => {
         const userId = decodedToken._id;
         // Fetch followers, following, and posts
         const responses = await Promise.all([
-          fetch(`https://gardening-server.vercel.app/api/v1/users/${userId}`, {
+          fetch(`/api/proxy/users/${userId}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           }),
-          fetch(`https://gardening-server.vercel.app/api/v1/follow/${userId}`, {
+          fetch(`/api/proxy/follow/${userId}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           }),
           fetch(
-            `https://gardening-server.vercel.app/api/v1/following/${userId}`,
+            `/api/proxy/following/${userId}`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -68,7 +68,7 @@ const page = () => {
             }
           ),
           fetch(
-            `https://gardening-server.vercel.app/api/v1/posts/user-posts/${userId}`,
+            `/api/proxy/posts/user-posts/${userId}`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -136,7 +136,7 @@ const page = () => {
       const decodedToken: any = jwtDecode(accessToken);
       const userId = decodedToken._id;
       await fetch(
-        `https://gardening-server.vercel.app/api/v1/users/${userId}`,
+        `/api/proxy/users/${userId}`,
         {
           method: "PATCH",
           headers: { Authorization: `Bearer ${accessToken}` },

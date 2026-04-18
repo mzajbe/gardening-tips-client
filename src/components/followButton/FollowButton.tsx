@@ -48,7 +48,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({ followingId }) => {
 
       try {
         const response = await fetch(
-          `https://gardening-server.vercel.app/api/v1/follow/status/${followerId}/${followingId}`,
+          `/api/proxy/follow/status/${followerId}/${followingId}`,
           {
             method: "GET",
             headers: {
@@ -73,8 +73,8 @@ const FollowButton: React.FC<FollowButtonProps> = ({ followingId }) => {
 
   const handleFollowToggle = async () => {
     const url = isFollowing
-      ? "https://gardening-server.vercel.app/api/v1/follow/unfollow" // Unfollow endpoint
-      : "https://gardening-server.vercel.app/api/v1/follow"; // Follow endpoint
+      ? "/api/proxy/follow/unfollow" // Unfollow endpoint
+      : "/api/proxy/follow"; // Follow endpoint
 
     const method = isFollowing ? "DELETE" : "POST"; // DELETE for unfollow, POST for follow
 

@@ -23,7 +23,7 @@ const SavesPostsModal:React.FC<SavedPostsModalProps> = ({ onClose }) => {
         const userId = decodedToken._id;
 
         const response = await Nexios.get(
-          `https://gardening-server.vercel.app/api/v1/fav/userfav/${userId}`
+          `/api/proxy/fav/userfav/${userId}`
         );
         setSavedPosts(response.data.data);
       } catch (error) {

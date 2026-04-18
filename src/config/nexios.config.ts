@@ -2,7 +2,7 @@
 import { Nexios } from "nexios-http";
 
 const nexiosInstance = new Nexios({
-    baseURL:"https://gardening-server.vercel.app/api/v1",
+    baseURL: "/api/proxy",
     timeout:10000,
     headers:{
         "Content-type":"application/json",

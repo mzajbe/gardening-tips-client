@@ -33,7 +33,7 @@ const FavouriteBtn = ({ postId }: FavouriteBtnProps) => {
       const checkIfFavourite = async () => {
         try {
           const response = await Nexios.get(
-            `https://gardening-server.vercel.app/api/v1/fav/${postId}`
+            `/api/proxy/fav/${postId}`
           );
           console.log(response.data.data.postId);
           if (response) {
@@ -55,13 +55,13 @@ const FavouriteBtn = ({ postId }: FavouriteBtnProps) => {
       if (isFavourite) {
         // Remove from favorites
         await Nexios.delete(
-          `https://gardening-server.vercel.app/api/v1/fav/${postId}`,
+          `/api/proxy/fav/${postId}`,
           { data: { userId } }
         );
         setIsFavourite(false);
       } else {
         // Add to favorites
-        await Nexios.post("https://gardening-server.vercel.app/api/v1/fav", {
+        await Nexios.post("/api/proxy/fav", {
           postId,
           userId,
         });

@@ -43,7 +43,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
 
   const fetchComments = useCallback(async () => {
     const res = await fetch(
-      `https://gardening-server.vercel.app/api/v1/comment/${postId}`
+      `/api/proxy/comment/${postId}`
     );
     const data = await res.json();
     setComments(data.data);
@@ -58,7 +58,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
       const commentPayload = { postId, userId, content: newComment };
 
       const res = await fetch(
-        `https://gardening-server.vercel.app/api/v1/comment`,
+        `/api/proxy/comment`,
         {
           method: "POST",
           headers: {
@@ -86,7 +86,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
       const editPayload = { content: updatedCommentContent, userId };
 
       const res = await fetch(
-        `https://gardening-server.vercel.app/api/v1/comment/${commentId}`,
+        `/api/proxy/comment/${commentId}`,
         {
           method: "PUT",
           headers: {
@@ -115,7 +115,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
     const deletePayload = { userId };
 
     const res = await fetch(
-      `https://gardening-server.vercel.app/api/v1/comment/${commentId}`,
+      `/api/proxy/comment/${commentId}`,
       {
         method: "DELETE",
         headers: {

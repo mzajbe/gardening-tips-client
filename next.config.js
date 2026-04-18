@@ -17,6 +17,14 @@ const nextConfig = {
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/proxy/:path*",
+        destination: "http://localhost:5000/api/v1/:path*",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

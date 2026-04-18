@@ -23,7 +23,7 @@ const handleCheckout = async () => {
     const decodeToken: any = jwtDecode(accessToken);
     const userId = decodeToken._id;
     const response = await Nexios.get(
-      `https://gardening-server.vercel.app/api/v1/payment/${userId}`
+      `/api/proxy/payment/${userId}`
     );
     // console.log(response);
 
@@ -51,7 +51,7 @@ const confirmPayment = async () => {
     const decodeToken: any = jwtDecode(accessToken);
     const userId = decodeToken._id;
     const response = await Nexios.post(
-      `https://gardening-server.vercel.app/api/v1/payment/confirmation/${userId}`
+      `/api/proxy/payment/confirmation/${userId}`
     );
 
     if (response.status === 200) {

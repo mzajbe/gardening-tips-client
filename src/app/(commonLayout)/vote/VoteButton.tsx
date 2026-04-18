@@ -37,7 +37,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({
     const fetchVotes = async () => {
       try {
         const response = await fetch(
-          `https://gardening-server.vercel.app/api/v1/votes/${postId}`
+          `/api/proxy/votes/${postId}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch vote counts");
@@ -69,7 +69,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({
       if (!accessToken) throw new Error("Access token is missing");
 
       const res = await fetch(
-        "https://gardening-server.vercel.app/api/v1/votes",
+        "/api/proxy/votes",
         {
           method: "POST",
           headers: {
