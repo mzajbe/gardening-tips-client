@@ -3,9 +3,9 @@
 "use client";
 
 import { logout } from "@/src/services/AuthService";
-import { Menu, Search, User } from "lucide-react";
-import Link from "next/link";
+import { LayoutDashboard, LogIn, LogOut, Menu, Search, User, UserCircle } from "lucide-react";
 import NextLink from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import {
@@ -29,18 +29,17 @@ const handleLogout = () => {
 };
 
 const Navbar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { setTheme } = useTheme();
+  const router = useRouter();
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+
 
   return (
     <nav className="bg-gray shadow-lg ">
@@ -112,44 +111,37 @@ const Navbar = () => {
             </div>
 
             {/* User dropdown */}
-            <div className="relative ml-3">
-              <button
-                onClick={toggleDropdown}
-                className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none"
-              >
-                <User className="h-6 w-6" />
-              </button>
-
-              {/* Dropdown menu */}
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 py-2 bg-white rounded-md shadow-xl z-50">
-                  <Link
-                    href="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            <div className="ml-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-white/80"
                   >
+                    <User className="h-6 w-6 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-white/80" />
+                    <span className="sr-only">Open profile menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-52">
+                  <DropdownMenuItem onClick={() => router.push("/profile")}>
+                    <UserCircle className="h-4 w-4 mr-2" />
                     Profile
-                  </Link>
-
-                  <Link
-                    href="/dashboard"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                    <LayoutDashboard className="h-4 w-4 mr-2" />
                     Dashboard
-                  </Link>
-                  <Link
-                    href="/login"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/login")}>
+                    <LogIn className="h-4 w-4 mr-2" />
                     Login
-                  </Link>
-                  <button
-                    onClick={() => handleLogout()}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleLogout()}>
+                    <LogOut className="h-4 w-4 mr-2" />
                     Logout
-                  </button>
-                </div>
-              )}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
