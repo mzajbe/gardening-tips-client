@@ -5,8 +5,8 @@
 import { logout } from "@/src/services/AuthService";
 import { LayoutDashboard, LogIn, LogOut, Menu, Search, User, UserCircle } from "lucide-react";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Input } from "../ui/input";
 import {
   DropdownMenu,
@@ -30,6 +30,14 @@ const handleLogout = () => {
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // Check if the accessToken cookie is present on the client safely
+    const hasToken = document.cookie.split(';').some(row => row.trim().startsWith('accessToken='));
+    setIsLoggedIn(hasToken);
+  }, [pathname]);
 
   const { setTheme } = useTheme();
   const router = useRouter();
@@ -117,29 +125,40 @@ const Navbar = () => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-white/80"
+                    className="bg-emerald-100/80 hover:bg-emerald-200 text-emerald-900 dark:bg-emerald-900/50 dark:hover:bg-emerald-800/80 dark:text-emerald-100 rounded-full shadow-sm ring-1 ring-emerald-200/50 dark:ring-emerald-800/50 transition-colors"
                   >
-                    <User className="h-6 w-6 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-white/80" />
+                    <User className="h-5 w-5" />
                     <span className="sr-only">Open profile menu</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-52">
-                  <DropdownMenuItem onClick={() => router.push("/profile")}>
-                    <UserCircle className="h-4 w-4 mr-2" />
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/dashboard")}>
-                    <LayoutDashboard className="h-4 w-4 mr-2" />
-                    Dashboard
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/login")}>
-                    <LogIn className="h-4 w-4 mr-2" />
-                    Login
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleLogout()}>
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Logout
-                  </DropdownMenuItem>
+                  {isLoggedIn ? (
+                    <>
+                      <DropdownMenuItem onClick={() => router.push("/profile")}>
+                        <UserCircle className="h-4 w-4 mr-2" />
+                        Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                        <LayoutDashboard className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={async () => {
+                        handleLogout();
+                        setIsLoggedIn(false);
+                        // Clears front-end cookie just in case auth service does not do it on time
+                        document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                        router.push("/login");
+                      }}>
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Logout
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <DropdownMenuItem onClick={() => router.push("/login")}>
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Login
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

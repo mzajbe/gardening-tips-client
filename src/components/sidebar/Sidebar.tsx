@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   Sheet,
@@ -32,6 +33,13 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const hasToken = document.cookie.split(';').some(row => row.trim().startsWith('accessToken='));
+    setIsLoggedIn(hasToken);
+  }, [pathname]);
 
   useEffect(() => {
     if (isDarkMode) document.documentElement.classList.add("dark");
@@ -43,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   const navItems = [
     { href: "/premium", label: "Premium", icon: CheckCheck },
-    { href: "/create-post", label: "Create Post", icon: PencilLine },
+    ...(isLoggedIn ? [{ href: "/create-post", label: "Create Post", icon: PencilLine }] : []),
     { href: "/image-gallery", label: "Image Gallery", icon: Images },
     { href: "/contact", label: "Contact", icon: ContactRound },
     { href: "/about-us", label: "About", icon: MessageCircleWarning },
@@ -51,19 +59,34 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   // ---- Sidebar Core ----
   const SidebarContent = () => (
-    <Card className="w-64 h-full flex flex-col justify-between p-4 shadow-md border-none bg-muted/30 dark:bg-muted/20 backdrop-blur-sm transition-all duration-300 ">
-      <nav className="space-y-4">
-        {navItems.map(({ href, label, icon: Icon }) => (
-          <Link
-            key={href}
-            href={href}
-            className="flex items-center gap-2 text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Icon className="w-5 h-5" />
-            {label}
-          </Link>
-        ))}
-      </nav>
+    <Card className="w-64 h-full flex flex-col justify-between py-6 px-4 shadow-xl border-r border-border/50 bg-background/95 dark:bg-muted/10 backdrop-blur-md rounded-none transition-all duration-300">
+      <div>
+        <div className="mb-6 px-3">
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+            Overview
+          </span>
+        </div>
+        <nav className="space-y-1.5">
+          {navItems.map(({ href, label, icon: Icon }) => {
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+                  isActive
+                    ? "bg-emerald-100/70 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-100 shadow-sm"
+                    : "text-muted-foreground hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+                )}
+              >
+                <Icon className={cn("w-5 h-5", isActive ? "text-emerald-600 dark:text-emerald-300" : "opacity-70")} />
+                {label}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
 
       {/* <div className="mt-6">
         <Separator className="my-3" />
@@ -100,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
       {/* Desktop Sidebar */}
       <div
         className={cn(
-          "hidden lg:block fixed top-0 left-0 h-screen transition-all duration-300 z-40 border  mt-16",
+          "hidden lg:block fixed top-0 left-0 h-screen transition-all duration-300 z-40  mt-16",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
