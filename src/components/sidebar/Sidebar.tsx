@@ -10,6 +10,7 @@ import {
   SunMoon,
   Menu,
   X,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -52,6 +53,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
   const navItems = [
     { href: "/premium", label: "Premium", icon: CheckCheck },
     ...(isLoggedIn ? [{ href: "/create-post", label: "Create Post", icon: PencilLine }] : []),
+    { href: "/groups", label: "Groups", icon: Users },
     { href: "/image-gallery", label: "Image Gallery", icon: Images },
     { href: "/contact", label: "Contact", icon: ContactRound },
     { href: "/about-us", label: "About", icon: MessageCircleWarning },
