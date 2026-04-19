@@ -8,8 +8,15 @@ import { parseCookies } from "nookies";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Button } from "@/src/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/components/ui/select";
 import { Loader2 } from "lucide-react";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -194,20 +201,22 @@ const page: React.FC = () => {
           
           {/* Category selection */}
           <div className="mt-6 flex items-center">
-            <select
-                id="category"
-                value={category}
-                onChange={handleCategoryChange}
-                disabled={isLoading}
-                className="block w-full max-w-xs rounded-md border-0 py-1.5 pl-3 pr-10 text-foreground ring-1 ring-inset ring-border focus:ring-2 focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-transparent"
-              >
-                <option value="" disabled>Select a category...</option>
+            <Select
+              value={category}
+              onValueChange={setCategory}
+              disabled={isLoading}
+            >
+              <SelectTrigger className="w-full max-w-xs bg-transparent border-border/60 focus:ring-emerald-600 focus:ring-offset-0">
+                <SelectValue placeholder="Select a category..." />
+              </SelectTrigger>
+              <SelectContent>
                 {categoriesOptions.map((categoryOption) => (
-                  <option key={categoryOption} value={categoryOption}>
+                  <SelectItem key={categoryOption} value={categoryOption}>
                     {categoryOption}
-                  </option>
+                  </SelectItem>
                 ))}
-            </select>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
