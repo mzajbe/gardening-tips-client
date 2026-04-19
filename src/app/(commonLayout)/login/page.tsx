@@ -57,7 +57,7 @@ const LoginPage = () => {
         console.log("Login successful:", response.data);
 
         // Store the access token (cookie storage recommended for security)
-        document.cookie = `accessToken=${response.data.data.accessToken}; path=/`;
+        document.cookie = `accessToken=${response.data.data.accessToken}; path=/; max-age=${60 * 24 * 60 * 60}`;
 
         // Redirect to the dashboard
         router.push("/dashboard");

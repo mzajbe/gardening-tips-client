@@ -44,6 +44,7 @@ const SignupPage = () => {
       if (data.success) {
         // Store the access token in localStorage or cookies if needed
         localStorage.setItem("accessToken", data.data.accessToken);
+        document.cookie = `accessToken=${data.data.accessToken}; path=/; max-age=${60 * 24 * 60 * 60}`;
 
         // Redirect to the dashboard or any protected route
         router.push("/dashboard");
