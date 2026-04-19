@@ -7,7 +7,7 @@ import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import Nexios from "axios";
 
-import { Save } from "lucide-react";
+import { Bookmark } from "lucide-react";
 
 interface FavouriteBtnProps {
   postId: string;
@@ -73,13 +73,15 @@ const FavouriteBtn = ({ postId }: FavouriteBtnProps) => {
   };
 
   return (
-    <Save
-      className={`cursor-pointer ${
-        isFavourite ? "text-red-500" : "text-gray-400"
+    <span
+      className={`cursor-pointer w-full text-sm font-medium flex items-center ${
+        isFavourite ? "text-emerald-500" : ""
       }`}
       onClick={handleToggleFavourite}
-      size={24}
-    />
+    >
+      <Bookmark className={`w-4 h-4 mr-2 ${isFavourite ? "fill-emerald-500" : ""}`} />
+      {isFavourite ? "Saved" : "Save"}
+    </span>
   );
 };
 

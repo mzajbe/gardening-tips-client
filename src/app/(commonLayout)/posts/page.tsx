@@ -21,6 +21,13 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Quets from "@/src/components/quets/Quets";
 import { FaShare } from "react-icons/fa6";
+import { MoreVertical, Download, Edit, Trash } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/src/components/ui/dropdown-menu";
 
 const Posts = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -233,49 +240,65 @@ const Posts = () => {
                     Category: {post.categories.join(", ")}
                   </span>
                   <span className="text-sm ">
-                    {new Date(post.createdAt).toLocaleDateString()}
+                    {new Date(post.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
                   </span>
                 </div>
 
-                <div className="mt-4 flex flex-wrap items-center justify-between space-x-2">
-                  <VoteButton postId={post._id as string} />
-
-                  <CommentBtn postId={post._id as string} />
-
-                  <FavouriteBtn postId={post._id}></FavouriteBtn>
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <VoteButton postId={post._id as string} />
+                    <CommentBtn postId={post._id as string} />
+                  </div>
                   
-                  {/* <FaShare onClick={() => copyToClipboard(post._id)}/> */}
-                  {copySuccess && (
-                    <div className="mt-4 text-green-600 font-semibold text-center">
-                      {copySuccess}
-                    </div>
-                  )}
-                  <button
-                    onClick={downloadGardenAsPDF}
-                    className="btn btn-secondary"
-                  >
-                    Download as PDF
-                  </button>
-                  {userId === post.author._id && (
-                    <>
-                      <button
-                        onClick={() => {
-                          setEditingPostId(post._id);
-                          setEditTitle(post.title);
-                          setEditContent(post.content);
-                        }}
-                        className="bg-yellow-500  px-4 py-2 rounded"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDeletePost(post._id)}
-                        className="bg-red-500  px-4 py-2 rounded"
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
+                  <div className="flex items-center space-x-2 relative z-20">
+                    {copySuccess && (
+                      <div className="text-green-600 font-semibold text-center text-sm mr-2">
+                        {copySuccess}
+                      </div>
+                    )}
+                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                          <MoreVertical className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuItem asChild className="cursor-pointer">
+                          <div className="w-full flex items-center px-2 py-1">
+                            <FavouriteBtn postId={post._id}></FavouriteBtn>
+                          </div>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={downloadGardenAsPDF} className="cursor-pointer">
+                          <Download className="w-4 h-4 mr-2" />
+                          Download as PDF
+                        </DropdownMenuItem>
+                        
+                        {userId === post.author._id && (
+                          <>
+                            <DropdownMenuItem 
+                              onClick={() => {
+                                setEditingPostId(post._id);
+                                setEditTitle(post.title);
+                                setEditContent(post.content);
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <Edit className="w-4 h-4 mr-2" />
+                              Edit Post
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              onClick={() => handleDeletePost(post._id)}
+                              className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950/30"
+                            >
+                              <Trash className="w-4 h-4 mr-2" />
+                              Delete Post
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </div>
                 {/* <Quets></Quets> */}
               </div>
