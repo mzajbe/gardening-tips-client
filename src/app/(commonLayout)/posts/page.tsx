@@ -29,7 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
 
-const Posts = () => {
+const Posts = ({ selectedCategory = "All" }: { selectedCategory?: string }) => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
@@ -162,8 +162,12 @@ const Posts = () => {
     <div className="flex justify-center p-6 border  dark:bg-black">
       <div className="w-full max-w-3xl  shadow-lg rounded-lg p-6">
         <div ref={postspdf}>
-          {posts.length > 0 ? (
-            posts.map((post) => (
+          {(() => {
+            const filteredPosts = selectedCategory === "All"
+              ? posts
+              : posts.filter((post) => post.categories?.includes(selectedCategory));
+            return filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
               <div
                 key={post._id}
                 className="relative p-4 mb-6  shadow-md rounded-lg border border-gray-300  dark:border-gray-700 transition-transform duration-300 hover:shadow-xl"
@@ -302,10 +306,10 @@ const Posts = () => {
                 </div>
                 {/* <Quets></Quets> */}
               </div>
-            ))
-          ) : (
+            )) ) : (
             <p className="text-center text-gray-500">No posts found</p>
-          )}
+          );
+          })()}
         </div>
       </div>
     </div>
