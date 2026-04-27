@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Leaf, Mail, Lock, Loader2 } from "lucide-react";
+import { Leaf, Mail, Lock, Loader2, UserRound } from "lucide-react";
 import { Label } from "@/src/components/ui/label";
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
@@ -34,6 +34,11 @@ interface LoginResponse {
   message?: string;
 }
 
+const ANONYMOUS_CREDENTIALS = {
+  email: "anom@gmail.com",
+  password: "anom1324",
+};
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,16 +46,15 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const performLogin = async (loginEmail: string, loginPassword: string) => {
     setError(null); // Reset error message
     setIsLoading(true);
 
     try {
       console.log("Attempting to log in...");
       const response = await nexiosInstance.post<LoginResponse>("/auth/login", {
-        email,
-        password,
+        email: loginEmail,
+        password: loginPassword,
       });
 
       if (response.data.success) {
@@ -70,6 +74,18 @@ const LoginPage = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await performLogin(email, password);
+  };
+
+  const handleAnonymousLogin = async () => {
+    await performLogin(
+      ANONYMOUS_CREDENTIALS.email,
+      ANONYMOUS_CREDENTIALS.password
+    );
   };
 
   return (
@@ -157,6 +173,26 @@ const LoginPage = () => {
                 </>
               ) : (
                 "Sign In"
+              )}
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleAnonymousLogin}
+              className="w-full h-11 border-purple-300 bg-purple-50/70 text-purple-700 hover:bg-purple-100 hover:text-purple-800 dark:border-purple-800 dark:bg-purple-950/30 dark:text-purple-300 dark:hover:bg-purple-950/50"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  <UserRound className="mr-2 h-5 w-5" />
+                  Anonymous Login
+                </>
               )}
             </Button>
           </form>

@@ -3,9 +3,8 @@
 
 import {
   CheckCheck,
-  ContactRound,
+  CircleHelp,
   Images,
-  MessageCircleWarning,
   PencilLine,
   SunMoon,
   Menu,
@@ -38,8 +37,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
     { href: "/premium", label: "Premium", icon: CheckCheck },
     { href: "/create-post", label: "Create Post", icon: PencilLine },
     { href: "/image-gallery", label: "Image Gallery", icon: Images },
-    { href: "/contact", label: "Contact", icon: ContactRound },
-    { href: "/about-us", label: "About", icon: MessageCircleWarning },
+    { href: "/help", label: "Help", icon: CircleHelp },
   ];
 
   // ---- Sidebar Core ----
