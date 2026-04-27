@@ -264,7 +264,7 @@ const Posts = ({ selectedCategory = "All" }: { selectedCategory?: string }) => {
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                          <MoreVertical className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                          <MoreVertical className="w-5 h-5 text-white" />
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-48">

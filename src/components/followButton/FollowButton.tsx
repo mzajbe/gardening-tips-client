@@ -111,7 +111,11 @@ const FollowButton: React.FC<FollowButtonProps> = ({ followingId }) => {
     <button
       onClick={handleFollowToggle}
       className={`flex items-center justify-center px-4 py-2 rounded-lg border transition duration-300   
-        ${isFollowing ? "dark:bg-black  dark:text-white border-blue-500 hover:bg-red-500" : "dark:bg-black text-blue-500 border-gray-300 hover:bg-gray-50"}`}
+        ${
+          isFollowing
+            ? "border-purple-500 text-purple-500 hover:border-green-500 hover:bg-green-500 hover:text-white dark:bg-black dark:text-purple-400"
+            : "border-purple-500 text-purple-500 hover:border-green-500 hover:bg-green-500 hover:text-white dark:bg-black dark:text-purple-400"
+        }`}
     >
       {isFollowing ? "Unfollow" : "Follow"}
     </button>

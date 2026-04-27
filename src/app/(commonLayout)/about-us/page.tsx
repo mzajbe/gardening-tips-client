@@ -1,65 +1,59 @@
 /* eslint-disable prettier/prettier */
 "use client";
-import { FaLeaf, FaSeedling, FaHandsHelping } from "react-icons/fa";
+
+import Image from "next/image";
+import { Button } from "@/src/components/ui/button";
 
 const AboutPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen ">
-      {/* Card Container */}
-      <div className=" backdrop-blur-md border border-purple-200 rounded-3xl shadow-xl p-10 max-w-3xl text-center animate-fadeIn">
-        <h1 className="text-5xl font-extrabold text-purple-700 mb-6 drop-shadow-md">
-          About <span className="text-green-600">Us</span>
-        </h1>
-        <p className="text-lg  mb-10 leading-relaxed">
-          Welcome to <span className="font-semibold text-green-700">BloomSpace</span> —
-          a community where gardeners, nature lovers, and green souls come together to
-          share inspiration, tips, and stories. Our goal is to make your garden grow as
-          beautifully as your ideas do.
-        </p>
-
-        {/* Mission Section */}
-        <div className="mb-8 hover:scale-105 transition-transform duration-300">
-          <div className="flex justify-center mb-3">
-            <FaHandsHelping className="text-4xl text-purple-600" />
+    <div className="min-h-screen bg-gradient-to-br from-white to-pink-50 dark:from-background dark:to-muted flex items-center justify-center py-12 px-6 sm:px-12">
+      <div className="max-w-6xl w-full mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-20">
+        
+        {/* Left Column: Text & CTA */}
+        <div className="flex-1 space-y-8 flex flex-col items-start text-left z-10">
+          <div className="space-y-4">
+            <h1 className="text-5xl sm:text-6xl font-extrabold text-[#2a2c59] dark:text-emerald-400 tracking-tight drop-shadow-sm uppercase">
+              About Us
+            </h1>
+            <div className="w-24 h-1 bg-[#2a2c59] dark:bg-emerald-500 rounded-full" />
           </div>
-          <h2 className="text-2xl font-semibold text-purple-700 mb-2">Our Mission</h2>
-          <p className="text-md  max-w-md mx-auto">
-            To cultivate a friendly online space where every gardener — from beginner to
-            expert — feels encouraged to grow, share, and learn from each other.
+
+          <p className="text-lg text-[#5a5e7b] dark:text-muted-foreground italic leading-relaxed max-w-lg">
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+            consequat."
           </p>
+          <p className="text-md text-[#5a5e7b] dark:text-muted-foreground leading-relaxed max-w-lg">
+            Welcome to BloomSpace — a community where gardeners, nature lovers, and green 
+            souls come together to share inspiration, tips, and stories.
+          </p>
+
+          <Button 
+            className="rounded-full px-10 py-6 bg-[#2a2c59] hover:bg-[#3d407a] text-white font-semibold tracking-wide shadow-lg hover:shadow-xl transition-all duration-300 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+          >
+            LEARN MORE
+          </Button>
         </div>
 
-        {/* Vision Section */}
-        <div className="mb-8 hover:scale-105 transition-transform duration-300">
-          <div className="flex justify-center mb-3">
-            <FaSeedling className="text-4xl text-green-600" />
+        {/* Right Column: Illustration Visual */}
+        <div className="flex-1 w-full max-w-md md:max-w-none relative animate-fadeIn">
+          {/* Abstract background blob underlying the image for extra depth */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[120%] bg-[#ffc6b5] dark:bg-emerald-950/40 rounded-full blur-3xl opacity-30 -z-10" />
+          
+          <div className="relative w-full aspect-square md:aspect-auto md:h-[600px] rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-500">
+            <Image
+              src="/flat_vector_about_us.png"
+              alt="BloomSpace Community Illustration"
+              layout="fill"
+              objectFit="contain"
+              quality={100}
+              priority
+              className="drop-shadow-2xl z-10"
+            />
           </div>
-          <h2 className="text-2xl font-semibold text-purple-700 mb-2">Our Vision</h2>
-          <p className="text-md  max-w-md mx-auto">
-            To become the most trusted and inspiring platform for garden enthusiasts
-            worldwide — where nature meets technology and every idea takes root.
-          </p>
         </div>
 
-        {/* Values Section */}
-        <div className="hover:scale-105 transition-transform duration-300">
-          <div className="flex justify-center mb-3">
-            <FaLeaf className="text-4xl text-green-500" />
-          </div>
-          <h2 className="text-2xl font-semibold text-purple-700 mb-2">Our Values</h2>
-          <p className="text-md  max-w-md mx-auto">
-            We believe in sustainability, creativity, and community. Each post, tip, and
-            photo shared helps our planet breathe a little easier.
-          </p>
-        </div>
-      </div>
-
-      {/* Decorative Leaves */}
-      <div className="absolute bottom-4 right-4 opacity-20 text-green-500 text-6xl animate-bounce-slow">
-        <FaLeaf />
-      </div>
-      <div className="absolute top-4 left-4 opacity-20 text-purple-400 text-6xl animate-bounce-slow">
-        <FaSeedling />
       </div>
     </div>
   );

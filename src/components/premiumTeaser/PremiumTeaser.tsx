@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 
 const PremiumTeaser = () => {
   return (
-    <Card className="relative overflow-hidden shadow-lg border-0 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/40 dark:via-green-950/30 dark:to-teal-950/40">
+    <Card className="relative overflow-hidden border border-emerald-200/70 bg-transparent shadow-none dark:border-emerald-800/60">
       {/* Decorative glow */}
       <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-400/20 dark:bg-emerald-500/10 rounded-full blur-2xl" />
       <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-teal-400/20 dark:bg-teal-500/10 rounded-full blur-2xl" />

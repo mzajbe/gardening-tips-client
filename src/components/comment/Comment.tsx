@@ -138,7 +138,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
         {/* <FaRegComment /> */}
 
         <MessageCircle
-          className="text-gray-500 hover:text-blue-500 cursor-pointer"
+          className="cursor-pointer text-white hover:text-white"
           size={24}
           onClick={() => setIsModalOpen(true)}
         />
