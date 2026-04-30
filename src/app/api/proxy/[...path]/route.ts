@@ -39,6 +39,8 @@ async function handleProxy(request: NextRequest, { params }: { params: { path: s
     responseHeaders.delete('Access-Control-Allow-Origin');
     responseHeaders.delete('Access-Control-Allow-Methods');
     responseHeaders.delete('Access-Control-Allow-Headers');
+    responseHeaders.delete('content-encoding');
+    responseHeaders.delete('content-length');
     
     return new Response(response.body, {
       status: response.status,
