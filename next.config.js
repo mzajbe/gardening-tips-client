@@ -27,14 +27,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/proxy/:path*",
-        destination: `${baseApi}/:path*`,
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;
