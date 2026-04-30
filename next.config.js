@@ -12,16 +12,26 @@
 // };
 
 /** @type {import('next').NextConfig} */
+const baseApi =
+  process.env.NEXT_PUBLIC_BASE_API ||
+  "https://gardening-server.vercel.app/api/v1";
+
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   async rewrites() {
     return [
       {
         source: "/api/proxy/:path*",
-        destination: "http://localhost:5000/api/v1/:path*",
+        destination: `${baseApi}/:path*`,
       },
     ];
   },

@@ -6,7 +6,7 @@ import { useState } from "react";
 import Quets from "../components/quets/Quets";
 import PremiumTeaser from "../components/premiumTeaser/PremiumTeaser";
 import CategoryFilter from "../components/categoryFilter/CategoryFilter";
-import Posts from "./(commonLayout)/posts/page";
+import Posts from "./(commonLayout)/posts/Posts";
 
 
 
