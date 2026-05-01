@@ -81,4 +81,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  ::selection {
+    background-color: purple;
+    color: white;
+  }
 }
