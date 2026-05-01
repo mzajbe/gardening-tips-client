@@ -159,8 +159,8 @@ const Posts = ({ selectedCategory = "All" }: { selectedCategory?: string }) => {
   // console.log(postspdf.current);
 
   return (
-    <div className="flex justify-center p-6 border  dark:bg-black">
-      <div className="w-full max-w-3xl  shadow-lg rounded-lg p-6">
+    <div className="flex justify-center p-0 sm:p-6 dark:bg-black">
+      <div className="w-full max-w-3xl shadow-lg rounded-lg p-2 sm:p-6">
         <div ref={postspdf}>
           {(() => {
             const filteredPosts = selectedCategory === "All"
@@ -170,7 +170,7 @@ const Posts = ({ selectedCategory = "All" }: { selectedCategory?: string }) => {
             filteredPosts.map((post) => (
               <div
                 key={post._id}
-                className="relative p-4 mb-6  shadow-md rounded-lg border border-gray-300  dark:border-gray-700 transition-transform duration-300 hover:shadow-xl"
+                className="relative p-3 sm:p-4 mb-4 sm:mb-6 shadow-md rounded-lg border border-gray-300 dark:border-gray-700 transition-transform duration-300 hover:shadow-xl"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center">
@@ -235,15 +235,15 @@ const Posts = ({ selectedCategory = "All" }: { selectedCategory?: string }) => {
                   <img
                     src={post.images[0]}
                     alt={post.title}
-                    className="w-full h-64 object-cover rounded-lg mb-3"
+                    className="w-full h-48 sm:h-64 object-cover rounded-lg mb-3"
                   />
                 )}
 
-                <div className="flex justify-between items-center mt-4">
-                  <span className="text-sm ">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 sm:mt-4 gap-1">
+                  <span className="text-xs sm:text-sm">
                     Category: {post.categories.join(", ")}
                   </span>
-                  <span className="text-sm ">
+                  <span className="text-xs sm:text-sm text-muted-foreground">
                     {new Date(post.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
                   </span>
                 </div>

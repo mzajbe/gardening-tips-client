@@ -50,12 +50,12 @@ const Navbar = () => {
 
 
   return (
-    <nav className="bg-gray shadow-lg ">
-      <div className="max-w-7xl border mx-auto px-4">
+    <nav className="bg-gray shadow-lg">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           {/* Left side - Company Name */}
 
-          <div className="flex items-center">
+          <div className="flex items-center pl-10 lg:pl-0">
             {/* <span className="text-3xl font-bold text-indigo-600 hover:text-indigo-800 transition duration-300 ease-in-out">COSMOS</span> */}
 
             <NextLink
@@ -87,10 +87,10 @@ const Navbar = () => {
 
           {/* Right side - User Icon and Mobile Menu Button */}
           <div className="flex items-center">
-            {/* Mobile menu button */}
+            {/* Mobile menu button - hidden since sidebar provides mobile nav */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
+              className="hidden items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
             >
               <Menu className="h-6 w-6" />
             </button>

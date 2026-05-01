@@ -16,7 +16,7 @@ const CosmosLogo = () => {
               COSMOS
             </h1> */}
         <h1
-          className="text-5xl font-extrabold group-hover:tracking-wider transition-all duration-300"
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold group-hover:tracking-wider transition-all duration-300"
           style={{
             WebkitTextStroke: "1px white", // white border around each letter
             color: "transparent", // makes inside transparent

@@ -297,7 +297,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
       </div>
 
       {/* Mobile Sidebar (Sheet Drawer) */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
+      <div className="lg:hidden fixed top-3.5 left-3 z-50">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">

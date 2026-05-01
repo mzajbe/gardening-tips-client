@@ -19,7 +19,7 @@ const categories = [
 
 const CategoryFilter = ({ selectedCategory, onFilterChange }: CategoryFilterProps) => {
   return (
-    <div className="flex flex-wrap gap-2 mb-6">
+    <div className="flex flex-nowrap md:flex-wrap gap-2 mb-4 md:mb-6 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
       {categories.map(({ label, value, icon: Icon }) => {
         const isActive = selectedCategory === value;
         return (
@@ -27,7 +27,7 @@ const CategoryFilter = ({ selectedCategory, onFilterChange }: CategoryFilterProp
             key={value}
             onClick={() => onFilterChange(value)}
             className={cn(
-              "inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 cursor-pointer",
+              "inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 cursor-pointer shrink-0",
               isActive
                 ? "bg-transparent text-emerald-600 border-emerald-600 dark:border-emerald-500 dark:text-emerald-400 font-semibold"
                 : "bg-transparent border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-emerald-400 hover:text-emerald-600 dark:hover:border-emerald-600 dark:hover:text-emerald-400"

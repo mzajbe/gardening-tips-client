@@ -64,13 +64,13 @@ export default function RootLayout({
 
             {/* Centering wrapper */}
             <div className="flex justify-center w-full flex-1">
-              <div className="flex flex-col max-w-7xl border md:flex-row  w-full">
+              <div className="flex flex-col max-w-7xl md:flex-row w-full">
                 {/* Sidebar */}
 
                 <Sidebar />
 
                 {/* Main content area */}
-                <main className="flex-1  p-4 transition-all duration-300">
+                <main className="flex-1 px-2 py-3 sm:p-4 transition-all duration-300">
                   {children}
                 </main>
               </div>
