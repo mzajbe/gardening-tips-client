@@ -2,7 +2,6 @@
 "use client";
 
 import { jwtDecode } from "jwt-decode";
-import nexiosInstance from "@/src/config/nexios.config";
 import {
   BadgeCheck,
   CheckCheck,
@@ -11,7 +10,6 @@ import {
   Loader2,
   PencilLine,
   Sparkles,
-  SunMoon,
   Menu,
   UserRound,
   X,
@@ -20,6 +18,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
 import {
   Sheet,
   SheetContent,
@@ -29,7 +28,8 @@ import {
 } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import { Separator } from "../ui/separator";
+
+import nexiosInstance from "@/src/config/nexios.config";
 import { cn } from "@/src/lib/utils";
 
 interface SidebarProps {
@@ -66,6 +66,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   useEffect(() => {
     const hasToken = document.cookie.split(';').some(row => row.trim().startsWith('accessToken='));
+
     setIsLoggedIn(hasToken);
   }, [pathname]);
 
@@ -79,6 +80,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
         if (!accessToken) {
           setUserInfo(null);
+
           return;
         }
 
@@ -87,6 +89,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
         if (!userId) {
           setUserInfo(null);
+
           return;
         }
 
@@ -101,6 +104,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         }
 
         const data = await response.json();
+
         setUserInfo(data.data);
       } catch (error) {
         console.error("Error fetching sidebar user:", error);
@@ -165,9 +169,9 @@ const Sidebar: React.FC<SidebarProps> = () => {
             <div className="flex items-center gap-3">
               {userInfo.profilePicture ? (
                 <img
-                  src={userInfo.profilePicture}
                   alt={userInfo.name || "User"}
                   className="h-12 w-12 rounded-full border-2 border-purple-400 object-cover"
+                  src={userInfo.profilePicture}
                 />
               ) : (
                 <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-purple-400 bg-purple-100 text-lg font-semibold text-purple-700 dark:bg-purple-900/60 dark:text-purple-200">
@@ -206,11 +210,11 @@ const Sidebar: React.FC<SidebarProps> = () => {
               Sign in instantly with the anonymous test account.
             </p>
             <Button
+              className="mt-3 w-full border-purple-300 bg-background text-purple-700 hover:bg-purple-100 hover:text-purple-800 dark:border-purple-800 dark:text-purple-300 dark:hover:bg-purple-950/50"
+              disabled={isAnonymousLoginLoading}
               type="button"
               variant="outline"
               onClick={handleAnonymousLogin}
-              className="mt-3 w-full border-purple-300 bg-background text-purple-700 hover:bg-purple-100 hover:text-purple-800 dark:border-purple-800 dark:text-purple-300 dark:hover:bg-purple-950/50"
-              disabled={isAnonymousLoginLoading}
             >
               {isAnonymousLoginLoading ? (
                 <>
@@ -235,16 +239,17 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <nav className="space-y-1.5">
           {navItems.map(({ href, label, icon: Icon }) => {
             const isActive = pathname === href;
+
             return (
               <Link
                 key={href}
-                href={href}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                   isActive
                     ? "bg-emerald-100/70 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-100 shadow-sm"
                     : "text-muted-foreground hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400"
                 )}
+                href={href}
               >
                 <Icon className={cn("w-5 h-5", isActive ? "text-emerald-600 dark:text-emerald-300" : "opacity-70")} />
                 {label}
@@ -273,10 +278,10 @@ const Sidebar: React.FC<SidebarProps> = () => {
       {/* Desktop toggle button (top-left corner) */}
       <div className="hidden lg:flex items-center gap-2 fixed top-4 left-4 z-50 ">
         <Button
-          onClick={toggleSidebar}
-          variant="outline"
-          size="icon"
           className="shadow-sm"
+          size="icon"
+          variant="outline"
+          onClick={toggleSidebar}
         >
           {isSidebarOpen ? (
             <X className="h-5 w-5" />
@@ -300,11 +305,11 @@ const Sidebar: React.FC<SidebarProps> = () => {
       <div className="lg:hidden fixed top-3.5 left-3 z-50">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
+            <Button size="icon" variant="outline">
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0">
+          <SheetContent className="p-0" side="left">
             <SheetHeader className="p-4">
               <SheetTitle className="text-xl font-bold">Menu</SheetTitle>
             </SheetHeader>

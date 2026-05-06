@@ -55,7 +55,7 @@ const page = () => {
           {images.length > 0 ? (
             images.map((url, index) => (
               <div key={index} className="overflow-hidden rounded-lg shadow-lg">
-                <img src={url} alt={`Gardening Image ${index + 1}`} className="w-full h-full object-cover transition-transform duration-300 transform hover:scale-105" />
+                <img alt={`Gardening Image ${index + 1}`} className="w-full h-full object-cover transition-transform duration-300 transform hover:scale-105" src={url} />
               </div>
             ))
           ) : (

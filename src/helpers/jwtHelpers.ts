@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "jsonwebtoken";
 import { jwtDecode } from "jwt-decode";
 
 // export const jwtVerify = (token:string) => {

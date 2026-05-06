@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { parseCookies } from "nookies"; // Assuming your access token is stored in cookies
 import { jwtDecode } from "jwt-decode";
+
 import { Post } from "../../../../../types";
 
  
@@ -120,9 +121,9 @@ const Dashboard: React.FC<DashboardProps> = () => {
                   <div className="mt-4">  
                     {post.images.length > 0 && (  
                       <img  
-                        src={post.images[0]}  
                         alt={post.title}  
                         className="w-full h-48 object-cover rounded-lg"  
+                        src={post.images[0]}  
                       />  
                     )}  
                   </div>  
@@ -132,9 +133,9 @@ const Dashboard: React.FC<DashboardProps> = () => {
           ) : (  
             <div className="flex flex-col items-center justify-center h-64">  
               <img  
-                src="/path/to/sloth.png" // Update the path to your sloth image  
-                alt="No posts yet"  
+                alt="No posts yet"
                 className="w-32 h-32"  
+                src="/path/to/sloth.png" // Update the path to your sloth image    
               />  
               <p className="text-gray-500">You havent written anything yet.</p>  
               <button className="bg-purple-500 text-white mt-4 px-4 py-2 rounded">  

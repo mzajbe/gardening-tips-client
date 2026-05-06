@@ -2,8 +2,9 @@
 "use client";
 
 import Link from "next/link";
-import { Card, CardContent } from "../ui/card";
 import { Crown, Check } from "lucide-react";
+
+import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 
 const PremiumTeaser = () => {

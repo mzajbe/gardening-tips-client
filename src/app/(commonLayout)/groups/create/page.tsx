@@ -6,11 +6,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { jwtDecode } from "jwt-decode";
+import { Loader2, ArrowLeft, Users } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import { Loader2, ArrowLeft, Users } from "lucide-react";
 
 const CreateGroupPage = () => {
   const [name, setName] = useState("");
@@ -24,8 +25,10 @@ const CreateGroupPage = () => {
     try {
       const cookies = parseCookies();
       const accessToken = cookies.accessToken;
+
       if (accessToken) {
         const decoded: any = jwtDecode(accessToken);
+
         setUserId(decoded._id);
       } else {
         router.push("/login");
@@ -58,8 +61,8 @@ const CreateGroupPage = () => {
   return (
     <div className="max-w-lg mx-auto p-6">
       <button
-        onClick={() => router.push("/groups")}
         className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
+        onClick={() => router.push("/groups")}
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Groups
@@ -79,36 +82,36 @@ const CreateGroupPage = () => {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <Label htmlFor="name" className="font-medium">
+              <Label className="font-medium" htmlFor="name">
                 Group Name
               </Label>
               <Input
+                required
+                className="h-11"
+                disabled={isLoading}
                 id="name"
-                type="text"
                 placeholder="e.g. Urban Balcony Gardeners"
+                type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                required
-                disabled={isLoading}
-                className="h-11"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description" className="font-medium">
+              <Label className="font-medium" htmlFor="description">
                 Description
               </Label>
               <textarea
+                required
+                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                disabled={isLoading}
                 id="description"
                 placeholder="Tell people what your group is about..."
+                rows={4}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
-                disabled={isLoading}
-                rows={4}
-                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
               />
             </div>
 
@@ -117,9 +120,9 @@ const CreateGroupPage = () => {
             )}
 
             <Button
-              type="submit"
               className="w-full h-11 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold shadow-md"
               disabled={isLoading}
+              type="submit"
             >
               {isLoading ? (
                 <>

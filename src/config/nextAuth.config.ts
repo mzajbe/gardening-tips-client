@@ -2,8 +2,9 @@
 /* eslint-disable prettier/prettier */
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import nexiosInstance from "./nexios.config";
 import { cookies } from "next/headers";
+
+import nexiosInstance from "./nexios.config";
 export const AuthOptions : NextAuthOptions = {
   providers: [
     GoogleProvider({

@@ -2,11 +2,13 @@
 /* eslint-disable prettier/prettier */
 "use client";
 
-import { logout } from "@/src/services/AuthService";
 import { LayoutDashboard, LogIn, LogOut, Menu, Search, User, UserCircle } from "lucide-react";
 import NextLink from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+
 import { Input } from "../ui/input";
 import {
   DropdownMenu,
@@ -15,9 +17,9 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
 import CosmosLogo from "../CosmosLogo";
+
+import { logout } from "@/src/services/AuthService";
 
 const handleLogout = () => {
   logout();
@@ -36,6 +38,7 @@ const Navbar = () => {
   useEffect(() => {
     // Check if the accessToken cookie is present on the client safely
     const hasToken = document.cookie.split(';').some(row => row.trim().startsWith('accessToken='));
+
     setIsLoggedIn(hasToken);
   }, [pathname]);
 
@@ -66,7 +69,7 @@ const Navbar = () => {
               {/* <p className="text-3xl font-bold text-indigo-600 hover:text-indigo-800 transition duration-300 ease-in-out">
                 COSMOS
               </p> */}
-              <CosmosLogo></CosmosLogo>
+              <CosmosLogo />
             </NextLink>
           </div>
 
@@ -89,8 +92,8 @@ const Navbar = () => {
           <div className="flex items-center">
             {/* Mobile menu button - hidden since sidebar provides mobile nav */}
             <button
-              onClick={toggleMobileMenu}
               className="hidden items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
+              onClick={toggleMobileMenu}
             >
               <Menu className="h-6 w-6" />
             </button>
@@ -98,7 +101,7 @@ const Navbar = () => {
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="icon">
+                  <Button size="icon" variant="outline">
                     <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
                     <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
                     <span className="sr-only">Toggle theme</span>
@@ -123,9 +126,9 @@ const Navbar = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    variant="ghost"
-                    size="icon"
                     className="bg-emerald-100/80 hover:bg-emerald-200 text-emerald-900 dark:bg-emerald-900/50 dark:hover:bg-emerald-800/80 dark:text-emerald-100 rounded-full shadow-sm ring-1 ring-emerald-200/50 dark:ring-emerald-800/50 transition-colors"
+                    size="icon"
+                    variant="ghost"
                   >
                     <User className="h-5 w-5" />
                     <span className="sr-only">Open profile menu</span>
@@ -172,9 +175,9 @@ const Navbar = () => {
               {/* Mobile search bar */}
               <div className="relative">
                 <input
-                  type="text"
-                  placeholder="Search..."
                   className="w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+                  placeholder="Search..."
+                  type="text"
                 />
                 <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
               </div>

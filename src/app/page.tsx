@@ -1,17 +1,23 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/self-closing-comp */
-"use client";
-
-import { useState } from "react";
 import Quets from "../components/quets/Quets";
 import PremiumTeaser from "../components/premiumTeaser/PremiumTeaser";
 import CategoryFilter from "../components/categoryFilter/CategoryFilter";
+import envConfig from "../config/envConfig";
+
 import Posts from "./(commonLayout)/posts/Posts";
 
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { category?: string };
+}) {
+  const selectedCategory = searchParams.category || "All";
 
-
-export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  // Fetch posts on the server for instant loading
+  const res = await fetch(`${envConfig.baseApi}/posts`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  const initialPosts = data?.data || [];
 
   return (
     <div className="mx-auto px-1 sm:px-4">
@@ -21,7 +27,7 @@ export default function Home() {
           <div className="hidden md:block">
             <Quets />
           </div>
-          <CategoryFilter selectedCategory={selectedCategory} onFilterChange={setSelectedCategory} />
+          <CategoryFilter />
           <div className="hidden md:block">
             <PremiumTeaser />
           </div>
@@ -29,7 +35,10 @@ export default function Home() {
 
         {/* Left column: main content (Posts) */}
         <div className="flex-1 min-w-0 order-last md:order-first">
-          <Posts selectedCategory={selectedCategory} />
+          <Posts
+            initialPosts={initialPosts}
+            selectedCategory={selectedCategory}
+          />
         </div>
       </section>
     </div>

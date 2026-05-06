@@ -122,10 +122,10 @@ const VoteButton: React.FC<VoteButtonProps> = ({
   return (
     <div className="flex ">
       <button
-        onClick={() => handleVote("upvote")}
         className={`${
           userVote === "upvote" ? "text-blue-500" : ""
         }     rounded-lg flex items-center space-x-2`}
+        onClick={() => handleVote("upvote")}
       >
         {/* <BiUpvote />  */}
         <ThumbsUp />
@@ -133,10 +133,10 @@ const VoteButton: React.FC<VoteButtonProps> = ({
       </button>
 
       <button
-        onClick={() => handleVote("downvote")}
         className={`${
           userVote === "downvote" ? "text-red-700" : ""
         }  px-4 py-2 rounded-lg flex items-center space-x-2`}
+        onClick={() => handleVote("downvote")}
       >
         {/* <BiDownvote />  */}
         <ThumbsDown />

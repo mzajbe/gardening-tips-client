@@ -6,9 +6,10 @@ import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { jwtDecode } from "jwt-decode";
+import { Users, Crown, UserPlus, Check, Trash, ArrowLeft } from "lucide-react";
+
 import { Card, CardContent } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
-import { Users, Crown, UserPlus, Check, Trash, ArrowLeft } from "lucide-react";
 
 const GroupDetailPage = () => {
   const { id } = useParams();
@@ -21,8 +22,10 @@ const GroupDetailPage = () => {
     try {
       const cookies = parseCookies();
       const accessToken = cookies.accessToken;
+
       if (accessToken) {
         const decoded: any = jwtDecode(accessToken);
+
         setUserId(decoded._id);
       }
     } catch (e) {
@@ -34,6 +37,7 @@ const GroupDetailPage = () => {
     const fetchGroup = async () => {
       try {
         const { data } = await axios.get(`/api/proxy/groups/${id}`);
+
         setGroup(data.data);
       } catch (error) {
         console.error("Error fetching group:", error);
@@ -41,6 +45,7 @@ const GroupDetailPage = () => {
         setLoading(false);
       }
     };
+
     if (id) fetchGroup();
   }, [id]);
 
@@ -48,6 +53,7 @@ const GroupDetailPage = () => {
     try {
       await axios.post(`/api/proxy/groups/${id}/join`, { userId });
       const { data } = await axios.get(`/api/proxy/groups/${id}`);
+
       setGroup(data.data);
     } catch (error: any) {
       alert(error?.response?.data?.message || "Failed to join");
@@ -58,6 +64,7 @@ const GroupDetailPage = () => {
     try {
       await axios.post(`/api/proxy/groups/${id}/leave`, { userId });
       const { data } = await axios.get(`/api/proxy/groups/${id}`);
+
       setGroup(data.data);
     } catch (error: any) {
       alert(error?.response?.data?.message || "Failed to leave");
@@ -97,8 +104,8 @@ const GroupDetailPage = () => {
     <div className="max-w-3xl mx-auto p-6">
       {/* Back */}
       <button
-        onClick={() => router.push("/groups")}
         className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
+        onClick={() => router.push("/groups")}
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Groups
@@ -131,19 +138,19 @@ const GroupDetailPage = () => {
           {userId && !isAdmin && (
             isMember ? (
               <Button
-                variant="outline"
-                size="sm"
-                onClick={handleLeave}
                 className="text-emerald-600 border-emerald-300"
+                size="sm"
+                variant="outline"
+                onClick={handleLeave}
               >
                 <Check className="w-4 h-4 mr-1" />
                 Joined
               </Button>
             ) : (
               <Button
+                className="bg-emerald-600 hover:bg-emerald-700 text-white"
                 size="sm"
                 onClick={handleJoin}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white"
               >
                 <UserPlus className="w-4 h-4 mr-1" />
                 Join Group
@@ -152,8 +159,8 @@ const GroupDetailPage = () => {
           )}
           {isAdmin && (
             <Button
-              variant="destructive"
               size="sm"
+              variant="destructive"
               onClick={handleDelete}
             >
               <Trash className="w-4 h-4 mr-1" />
@@ -183,15 +190,16 @@ const GroupDetailPage = () => {
             {group.members?.map((member: any) => {
               const memberId = member._id || member;
               const memberIsAdmin = (group.admin?._id || group.admin) === memberId;
+
               return (
                 <div
                   key={memberId}
                   className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-muted/50 transition-colors"
                 >
                   <img
-                    src={member.profilePicture || "https://i.postimg.cc/KcBGjPS7/profile-picture.webp"}
                     alt={member.name || "Member"}
                     className="w-9 h-9 rounded-full object-cover border border-border"
+                    src={member.profilePicture || "https://i.postimg.cc/KcBGjPS7/profile-picture.webp"}
                   />
                   <div className="flex-1">
                     <span className="text-sm font-medium">

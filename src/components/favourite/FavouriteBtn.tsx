@@ -6,7 +6,6 @@ import { jwtDecode } from "jwt-decode";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import Nexios from "axios";
-
 import { Bookmark } from "lucide-react";
 
 interface FavouriteBtnProps {

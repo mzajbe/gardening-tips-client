@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
@@ -47,8 +48,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
         {navItems.map(({ href, label, icon: Icon }) => (
           <Link
             key={href}
-            href={href}
             className="flex items-center gap-2 text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
+            href={href}
           >
             <Icon className="w-5 h-5" />
             {label}
@@ -59,9 +60,9 @@ const Sidebar: React.FC<SidebarProps> = () => {
       <div className="mt-6">
         <Separator className="my-3" />
         <Button
-          onClick={toggleTheme}
-          variant="outline"
           className="w-full flex items-center gap-2"
+          variant="outline"
+          onClick={toggleTheme}
         >
           <SunMoon className="w-4 h-4" />
           {isDarkMode ? "Light Mode" : "Dark Mode"}
@@ -81,11 +82,11 @@ const Sidebar: React.FC<SidebarProps> = () => {
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
+            <Button size="icon" variant="outline">
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0">
+          <SheetContent className="p-0" side="left">
             <SheetHeader className="p-4">
               <SheetTitle className="text-xl font-bold">Menu</SheetTitle>
             </SheetHeader>

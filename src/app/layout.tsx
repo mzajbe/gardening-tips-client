@@ -2,12 +2,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
 import "@/src/styles/globals.css";
-import { Metadata, Viewport } from "next";
-import { Link } from "@nextui-org/link";
+import { Metadata } from "next";
 import clsx from "clsx";
 
-import { Providers } from "./providers";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { siteConfig } from "@/src/config/site";
 import { fontSans } from "@/src/config/fonts";
@@ -15,7 +12,6 @@ import { fontSans } from "@/src/config/fonts";
 import Sidebar from "../components/sidebar/Sidebar";
 import CosmosIcon from "../../public/Gemini_Generated_Image_e8twzbe8twzbe8tw.png"
 
-import { Toaster, toast } from "sonner";
 import Navbar from "../components/navbar/Navbar";
 import { ThemeProvider } from "../components/theme-provider";
 
@@ -52,10 +48,10 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider
+          disableTransitionOnChange
+          enableSystem
           attribute="class"
           defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
         >
           {/* <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}> */}
           <div className="relative flex flex-col h-screen">

@@ -1,14 +1,16 @@
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable prettier/prettier */
+"use client";
 import { useState, useEffect, useCallback } from "react";
 // import { FaRegComment } from "react-icons/fa";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { parseCookies } from "nookies";
 import { jwtDecode } from "jwt-decode";
-import { TComment } from "./types.comment";
 import { toast } from "sonner";
 import { MessageCircle } from "lucide-react";
+
+import { TComment } from "./types.comment";
 
 const CommentBtn = ({ postId }: { postId: string }) => {
   const [comments, setComments] = useState<TComment[]>([]);
@@ -145,7 +147,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
         <span className="text-gray-600 text-sm">{comments.length}</span>
       </div>
 
-      <Transition appear show={isModalOpen} as={Fragment}>
+      <Transition appear as={Fragment} show={isModalOpen}>
         <Dialog
           as="div"
           className="relative z-10"
@@ -265,15 +267,15 @@ const CommentBtn = ({ postId }: { postId: string }) => {
 
                   <div className="mt-4 flex justify-end space-x-2">
                     <button
-                      type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+                      type="button"
                       onClick={() => setIsModalOpen(false)}
                     >
                       Close
                     </button>
                     <button
-                      type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+                      type="button"
                       onClick={handleNewComment}
                     >
                       Post Comment

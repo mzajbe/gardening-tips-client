@@ -6,7 +6,6 @@ import * as React from "react";
 import Image from 'next/image'; 
 
 import { IconSvgProps } from "../../types";
-
 import logo from '../assects/logo/cosmos-logo.jpg'
 
 // import { IconSvgProps } from "@/types";

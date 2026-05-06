@@ -5,13 +5,13 @@
 
 "use client";
 
-import GoogleLoginBtn from "@/src/components/shared/GoogleLoginBtn";
-import nexiosInstance from "@/src/config/nexios.config";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 import { Leaf, Mail, Lock, Loader2, UserRound } from "lucide-react";
+
+import nexiosInstance from "@/src/config/nexios.config";
+import GoogleLoginBtn from "@/src/components/shared/GoogleLoginBtn";
 import { Label } from "@/src/components/ui/label";
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
@@ -111,49 +111,49 @@ const LoginPage = () => {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form className="space-y-5" onSubmit={handleLogin}>
             <div className="space-y-2">
-              <Label htmlFor="email" className=" font-medium">
+              <Label className=" font-medium" htmlFor="email">
                 Email Address
               </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="pl-10 h-11 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 focus:ring-green-500"
                   disabled={isLoading}
+                  id="email"
+                  placeholder="your@email.com"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className=" font-medium">
+              <Label className=" font-medium" htmlFor="password">
                 Password
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   required
                   className="pl-10 h-11 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 focus:ring-green-500"
                   disabled={isLoading}
+                  id="password"
+                  placeholder="Enter your password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
 
             {error && (
               <Alert
-                variant="destructive"
                 className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
+                variant="destructive"
               >
                 <AlertDescription className="text-red-800 dark:text-red-400">
                   {error}
@@ -162,9 +162,9 @@ const LoginPage = () => {
             )}
 
             <Button
-              type="submit"
               className="w-full h-11 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
               disabled={isLoading}
+              type="submit"
             >
               {isLoading ? (
                 <>
@@ -177,11 +177,11 @@ const LoginPage = () => {
             </Button>
 
             <Button
+              className="w-full h-11 border-purple-300 bg-purple-50/70 text-purple-700 hover:bg-purple-100 hover:text-purple-800 dark:border-purple-800 dark:bg-purple-950/30 dark:text-purple-300 dark:hover:bg-purple-950/50"
+              disabled={isLoading}
               type="button"
               variant="outline"
               onClick={handleAnonymousLogin}
-              className="w-full h-11 border-purple-300 bg-purple-50/70 text-purple-700 hover:bg-purple-100 hover:text-purple-800 dark:border-purple-800 dark:bg-purple-950/30 dark:text-purple-300 dark:hover:bg-purple-950/50"
-              disabled={isLoading}
             >
               {isLoading ? (
                 <>
@@ -202,8 +202,8 @@ const LoginPage = () => {
           <div className="text-center text-sm">
             Do not have an account?{" "}
             <Link
-              href="/signup"
               className="font-semibold text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors underline-offset-4 hover:underline"
+              href="/signup"
             >
               Sign up here
             </Link>

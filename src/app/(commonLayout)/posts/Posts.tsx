@@ -29,9 +29,15 @@ import {
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
 
-const Posts = ({ selectedCategory = "All" }: { selectedCategory?: string }) => {
-  const [posts, setPosts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+const Posts = ({ 
+  initialPosts = [], 
+  selectedCategory = "All" 
+}: { 
+  initialPosts?: any[], 
+  selectedCategory?: string 
+}) => {
+  const [posts, setPosts] = useState<any[]>(initialPosts);
+  const [loading, setLoading] = useState(false);
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
@@ -91,21 +97,8 @@ const Posts = ({ selectedCategory = "All" }: { selectedCategory?: string }) => {
   }, []);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const { data }: any = await nexiosInstance.get("/posts", {
-          cache: "no-store",
-        });
-        setPosts(data?.data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
+    setPosts(initialPosts);
+  }, [initialPosts]);
 
   // console.log(userId);
 

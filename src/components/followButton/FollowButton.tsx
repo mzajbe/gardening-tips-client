@@ -3,7 +3,6 @@
 import { jwtDecode } from "jwt-decode";
 import { parseCookies } from "nookies";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 interface FollowButtonProps {
   followingId: string; // ID of the user to be followed/unfollowed
@@ -59,6 +58,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({ followingId }) => {
 
         if (response.ok) {
           const data = await response.json();
+
           setIsFollowing(data.isFollowing); // Set the follow state based on the response
         } else {
           throw new Error("Failed to fetch follow status");
@@ -109,13 +109,13 @@ const FollowButton: React.FC<FollowButtonProps> = ({ followingId }) => {
 
   return (
     <button
-      onClick={handleFollowToggle}
       className={`flex items-center justify-center px-4 py-2 rounded-lg border transition duration-300   
         ${
           isFollowing
             ? "border-purple-500 text-purple-500 hover:border-green-500 hover:bg-green-500 hover:text-white dark:bg-black dark:text-purple-400"
             : "border-purple-500 text-purple-500 hover:border-green-500 hover:bg-green-500 hover:text-white dark:bg-black dark:text-purple-400"
         }`}
+      onClick={handleFollowToggle}
     >
       {isFollowing ? "Unfollow" : "Follow"}
     </button>

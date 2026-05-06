@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import Nexios from "axios";
+
 import { Post } from "../../../types";
 
 interface SavedPostsModalProps {
@@ -44,8 +45,8 @@ const SavesPostsModal:React.FC<SavedPostsModalProps> = ({ onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-3/4 max-w-lg">
         <button
-          onClick={onClose}
           className="text-gray-500 hover:text-gray-800 float-right"
+          onClick={onClose}
         >
           &times;
         </button>

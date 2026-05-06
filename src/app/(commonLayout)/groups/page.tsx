@@ -6,9 +6,10 @@ import axios from "axios";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { jwtDecode } from "jwt-decode";
+import { Users, Plus, Crown, UserPlus, Check } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
-import { Users, Plus, Crown, UserPlus, Check } from "lucide-react";
 
 const GroupsPage = () => {
   const [groups, setGroups] = useState<any[]>([]);
@@ -19,8 +20,10 @@ const GroupsPage = () => {
     try {
       const cookies = parseCookies();
       const accessToken = cookies.accessToken;
+
       if (accessToken) {
         const decoded: any = jwtDecode(accessToken);
+
         setUserId(decoded._id);
       }
     } catch (e) {
@@ -32,6 +35,7 @@ const GroupsPage = () => {
     const fetchGroups = async () => {
       try {
         const { data } = await axios.get("/api/proxy/groups");
+
         setGroups(data.data || []);
       } catch (error) {
         console.error("Error fetching groups:", error);
@@ -39,6 +43,7 @@ const GroupsPage = () => {
         setLoading(false);
       }
     };
+
     fetchGroups();
   }, []);
 
@@ -47,6 +52,7 @@ const GroupsPage = () => {
       await axios.post(`/api/proxy/groups/${groupId}/join`, { userId });
       // Refresh groups
       const { data } = await axios.get("/api/proxy/groups");
+
       setGroups(data.data || []);
     } catch (error: any) {
       console.error("Error joining group:", error?.response?.data?.message || error);
@@ -57,6 +63,7 @@ const GroupsPage = () => {
     try {
       await axios.post(`/api/proxy/groups/${groupId}/leave`, { userId });
       const { data } = await axios.get("/api/proxy/groups");
+
       setGroups(data.data || []);
     } catch (error: any) {
       console.error("Error leaving group:", error?.response?.data?.message || error);
@@ -139,19 +146,19 @@ const GroupsPage = () => {
                     {userId && !isAdmin && (
                       isMember ? (
                         <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleLeave(group._id)}
                           className="text-emerald-600 border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleLeave(group._id)}
                         >
                           <Check className="w-4 h-4 mr-1" />
                           Joined
                         </Button>
                       ) : (
                         <Button
+                          className="bg-emerald-600 hover:bg-emerald-700 text-white"
                           size="sm"
                           onClick={() => handleJoin(group._id)}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white"
                         >
                           <UserPlus className="w-4 h-4 mr-1" />
                           Join

@@ -92,6 +92,7 @@ const HelpPage = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -185,48 +186,48 @@ const HelpPage = () => {
               Use this form if you still need help after checking the common topics.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="name" className="mb-2 block text-sm font-semibold">
+                <label className="mb-2 block text-sm font-semibold" htmlFor="name">
                   Name
                 </label>
                 <input
+                  required
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                   id="name"
                   name="name"
                   type="text"
-                  required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-input bg-background px-4 py-3 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-semibold">
+                <label className="mb-2 block text-sm font-semibold" htmlFor="email">
                   Email
                 </label>
                 <input
+                  required
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                   id="email"
                   name="email"
                   type="email"
-                  required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-input bg-background px-4 py-3 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                 />
               </div>
 
               <div>
-                <label htmlFor="topic" className="mb-2 block text-sm font-semibold">
+                <label className="mb-2 block text-sm font-semibold" htmlFor="topic">
                   Topic
                 </label>
                 <select
+                  required
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                   id="topic"
                   name="topic"
-                  required
                   value={formData.topic}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-input bg-background px-4 py-3 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                 >
                   <option value="">Select a topic</option>
                   {supportTopics.map((topic) => (
@@ -238,24 +239,24 @@ const HelpPage = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="mb-2 block text-sm font-semibold">
+                <label className="mb-2 block text-sm font-semibold" htmlFor="message">
                   Message
                 </label>
                 <textarea
+                  required
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                   id="message"
                   name="message"
-                  required
+                  placeholder="Explain the issue, what page you were on, and what you expected to happen."
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-input bg-background px-4 py-3 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
-                  placeholder="Explain the issue, what page you were on, and what you expected to happen."
                 />
               </div>
 
               <button
-                type="submit"
                 className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 px-4 py-3 font-semibold text-white shadow-lg transition hover:from-emerald-700 hover:to-green-700"
+                type="submit"
               >
                 Send Request
               </button>

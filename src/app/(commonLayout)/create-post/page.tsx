@@ -9,6 +9,8 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
 import { toast, ToastContainer } from "react-toastify";
+import { Loader2 } from "lucide-react";
+
 import { Button } from "@/src/components/ui/button";
 import {
   Select,
@@ -17,7 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/src/components/ui/select";
-import { Loader2 } from "lucide-react";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -140,8 +141,8 @@ const page: React.FC = () => {
           <div className="flex items-center gap-4">
             {!imageFile ? (
               <Button
-                variant="outline"
                 className="text-muted-foreground border-border/80 hover:bg-muted font-medium"
+                variant="outline"
                 onClick={() => fileInputRef.current?.click()}
               >
                 Add a cover image
@@ -150,24 +151,24 @@ const page: React.FC = () => {
               <div className="flex items-center gap-4 w-full">
                  <div className="relative h-24 w-40 bg-muted rounded-md overflow-hidden flex-shrink-0 border border-border">
                    <img 
-                      src={URL.createObjectURL(imageFile)} 
                       alt="Cover Preview" 
-                      className="object-cover w-full h-full"
+                      className="object-cover w-full h-full" 
+                      src={URL.createObjectURL(imageFile)}
                    />
                  </div>
                  <div className="flex flex-col gap-2">
                     <Button
-                      variant="outline"
-                      size="sm"
                       className="w-fit"
+                      size="sm"
+                      variant="outline"
                       onClick={() => fileInputRef.current?.click()}
                     >
                       Change
                     </Button>
                     <Button
-                      variant="ghost"
-                      size="sm"
                       className="w-fit text-destructive hover:text-destructive hover:bg-destructive/10"
+                      size="sm"
+                      variant="ghost"
                       onClick={() => {
                         setImageFile(null);
                         if (fileInputRef.current) fileInputRef.current.value = "";
@@ -180,31 +181,31 @@ const page: React.FC = () => {
             )}
             <input
               ref={fileInputRef}
-              type="file"
               accept="image/*"
-              onChange={handleImageChange}
-              disabled={isLoading}
               className="hidden"
+              disabled={isLoading}
+              type="file"
+              onChange={handleImageChange}
             />
           </div>
 
           {/* Title Area */}
           <textarea
+            className="w-full text-4xl md:text-5xl font-extrabold bg-transparent border-none outline-none mt-6 resize-none overflow-hidden placeholder:text-muted-foreground/50 focus:ring-0 leading-tight"
+            disabled={isLoading}
             placeholder="New post title here..."
+            rows={1}
             value={title}
             onChange={handleTitleChange}
             onKeyDown={handleTitleKeyDown}
-            disabled={isLoading}
-            className="w-full text-4xl md:text-5xl font-extrabold bg-transparent border-none outline-none mt-6 resize-none overflow-hidden placeholder:text-muted-foreground/50 focus:ring-0 leading-tight"
-            rows={1}
           />
           
           {/* Category selection */}
           <div className="mt-6 flex items-center">
             <Select
+              disabled={isLoading}
               value={category}
               onValueChange={setCategory}
-              disabled={isLoading}
             >
               <SelectTrigger className="w-full max-w-xs bg-transparent border-border/60 focus:ring-emerald-600 focus:ring-offset-0">
                 <SelectValue placeholder="Select a category..." />
@@ -223,12 +224,12 @@ const page: React.FC = () => {
         {/* Editor Area */}
         <div className="flex-grow flex flex-col">
           <ReactQuill
+            className="flex-grow [&_.ql-toolbar]:border-x-0 [&_.ql-toolbar]:border-border [&_.ql-toolbar]:bg-muted/10 [&_.ql-container]:border-none [&_.ql-container]:text-lg [&_.ql-editor]:min-h-[40vh] [&_.ql-editor]:px-8 [&_.ql-editor]:py-6"
+            placeholder="Write your post content here..."
+            readOnly={isLoading}
             theme="snow"
             value={content}
             onChange={setContent}
-            readOnly={isLoading}
-            className="flex-grow [&_.ql-toolbar]:border-x-0 [&_.ql-toolbar]:border-border [&_.ql-toolbar]:bg-muted/10 [&_.ql-container]:border-none [&_.ql-container]:text-lg [&_.ql-editor]:min-h-[40vh] [&_.ql-editor]:px-8 [&_.ql-editor]:py-6"
-            placeholder="Write your post content here..."
           />
         </div>
       </div>
@@ -237,9 +238,9 @@ const page: React.FC = () => {
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-2">
         <div className="flex items-center gap-4">
           <Button
-            onClick={handleSubmit}
-            disabled={isLoading}
             className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-6 py-6"
+            disabled={isLoading}
+            onClick={handleSubmit}
           >
             {isLoading ? (
               <>
@@ -252,13 +253,13 @@ const page: React.FC = () => {
           </Button>
 
           <Button
+            className="text-muted-foreground"
+            disabled={isLoading}
             variant="ghost"
             onClick={() => {
                // optional clear functionality or save draft
                toast.info("Drafts not implemented yet");
             }}
-            disabled={isLoading}
-            className="text-muted-foreground"
           >
             Save draft
           </Button>
@@ -266,19 +267,19 @@ const page: React.FC = () => {
 
         <label className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground">
           <input
-            type="checkbox"
             checked={isPremium}
-            onChange={(e) => setIsPremium(e.target.checked)}
-            disabled={isLoading}
             className="accent-emerald-600 h-4 w-4 rounded border-border"
+            disabled={isLoading}
+            type="checkbox"
+            onChange={(e) => setIsPremium(e.target.checked)}
           />
           Mark as Premium Content
         </label>
       </div>
 
       <ToastContainer 
-        position="bottom-right" 
         autoClose={4000} 
+        position="bottom-right" 
         theme="colored"
       />
     </div>

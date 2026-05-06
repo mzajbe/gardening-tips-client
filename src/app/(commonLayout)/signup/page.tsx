@@ -5,10 +5,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-
-
 import { Sprout, Mail, Lock, User, Loader2 } from "lucide-react";
+
 import { Label } from "@/src/components/ui/label";
 import { Input } from "@/src/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/src/components/ui/card";
@@ -65,9 +63,9 @@ const SignupPage = () => {
     <div className="min-h-screen flex items-center justify-center  p-4">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-emerald-200/30 dark:bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-green-200/30 dark:bg-green-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-200/20 dark:bg-teal-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-10 w-72 h-72 bg-emerald-200/30 dark:bg-emerald-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-green-200/30 dark:bg-green-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-200/20 dark:bg-teal-500/5 rounded-full blur-3xl" />
       </div>
 
       <Card className="w-full max-w-md relative z-10 shadow-2xl border-green-100  bg-transparent backdrop-blur-sm">
@@ -84,60 +82,60 @@ const SignupPage = () => {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSignup} className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSignup}>
             <div className="space-y-2">
-              <Label htmlFor="name" className=" font-medium">
+              <Label className=" font-medium" htmlFor="name">
                 Full Name
               </Label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
-                  id="name"
-                  type="text"
-                  placeholder="Please enter Your Full Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
                   required
                   className="pl-10 h-11 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 focus:ring-green-500"
                   disabled={isLoading}
+                  id="name"
+                  placeholder="Please enter Your Full Name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="font-medium">
+              <Label className="font-medium" htmlFor="email">
                 Email Address
               </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="pl-10 h-11 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 focus:ring-green-500"
                   disabled={isLoading}
+                  id="email"
+                  placeholder="your@email.com"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="font-medium">
+              <Label className="font-medium" htmlFor="password">
                 Password
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
-                  id="password"
-                  type="password"
-                  placeholder="Create a strong password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   required
                   className="pl-10 h-11 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 focus:ring-green-500"
                   disabled={isLoading}
+                  id="password"
+                  placeholder="Create a strong password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
@@ -154,7 +152,7 @@ const SignupPage = () => {
           </div> */}
 
             {error && (
-              <Alert variant="destructive" className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
+              <Alert className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800" variant="destructive">
                 <AlertDescription className="text-red-800 dark:text-red-400">
                   {error}
                 </AlertDescription>
@@ -162,9 +160,9 @@ const SignupPage = () => {
             )}
 
             <Button
-              type="submit"
               className="w-full h-11 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
               disabled={isLoading}
+              type="submit"
             >
               {isLoading ? (
                 <>
@@ -182,8 +180,8 @@ const SignupPage = () => {
           <div className="text-center text-sm">
             Already have an account?{" "}
             <Link
-              href="/login"
               className="font-semibold text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors underline-offset-4 hover:underline"
+              href="/login"
             >
               Sign in here
             </Link>
