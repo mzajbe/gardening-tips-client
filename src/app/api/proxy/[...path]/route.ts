@@ -36,9 +36,11 @@ async function handleProxy(
   };
 
   if (["POST", "PUT", "PATCH", "DELETE"].includes(request.method)) {
-    const body = await request.text();
+    // Use arrayBuffer (not text) so binary multipart/form-data bodies
+    // (e.g. image uploads) are forwarded byte-for-byte without corruption.
+    const body = await request.arrayBuffer();
 
-    if (body) {
+    if (body.byteLength > 0) {
       requestInit.body = body;
     }
   }

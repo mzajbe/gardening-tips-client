@@ -12,12 +12,13 @@ export default async function Home({
 }) {
   const selectedCategory = searchParams.category || "All";
 
-  // Fetch posts on the server for instant loading
-  const res = await fetch(`${envConfig.baseApi}/posts`, {
+  // Fetch only the first page server-side for instant SSR
+  const res = await fetch(`${envConfig.baseApi}/posts?page=1&limit=8`, {
     cache: "no-store",
   });
   const data = await res.json();
-  const initialPosts = data?.data || [];
+  const initialPosts = data?.data?.posts || [];
+  const initialTotal = data?.data?.total  || 0;
 
   return (
     <div className="mx-auto px-1 sm:px-4">
@@ -37,6 +38,7 @@ export default async function Home({
         <div className="flex-1 min-w-0 order-last md:order-first">
           <Posts
             initialPosts={initialPosts}
+            initialTotal={initialTotal}
             selectedCategory={selectedCategory}
           />
         </div>

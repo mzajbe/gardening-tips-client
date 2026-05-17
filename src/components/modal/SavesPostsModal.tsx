@@ -7,6 +7,13 @@ import Nexios from "axios";
 
 import { Post } from "../../../types";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/src/components/ui/dialog";
+
 interface SavedPostsModalProps {
     onClose: () => void;
   }
@@ -42,33 +49,32 @@ const SavesPostsModal:React.FC<SavedPostsModalProps> = ({ onClose }) => {
   
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg w-3/4 max-w-lg">
-        <button
-          className="text-gray-500 hover:text-gray-800 float-right"
-          onClick={onClose}
-        >
-          &times;
-        </button>
-        <h2 className="text-xl text-black font-semibold mb-4">Saved Posts</h2>
+    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-2xl bg-white dark:bg-slate-800 max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-gray-800 dark:text-white">Saved Posts</DialogTitle>
+        </DialogHeader>
 
         {loading ? (
-          <p>Loading...</p>
+          <p className="text-gray-600 dark:text-gray-300">Loading...</p>
         ) : savedPosts.length === 0 ? (
-          <p>No saved posts found.</p>
+          <p className="text-gray-600 dark:text-gray-300">No saved posts found.</p>
         ) : (
-            <ul className="space-y-4">  
+          <ul className="space-y-4 mt-4">  
             {savedPosts.map((post) => (  
-              <li key={post._id} className="rounded-lg shadow-md p-4 bg-white dark:bg-gray-800 transition-transform transform hover:scale-105">  
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{post.postId.title}</h3>  
-                <p className="text-gray-700 dark:text-gray-300">{post.postId.content}</p>  
+              <li key={post._id} className="rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-800 transition-transform transform hover:scale-[1.02]">  
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{post.postId.title}</h3>  
+                <div 
+                  dangerouslySetInnerHTML={{ __html: post.postId.content }} 
+                  className="text-gray-700 dark:text-gray-300 mt-2" 
+                />
                 {/* <img src={post.postId.images[0]} alt="" className="w-full h-48 object-cover rounded-md my-2" /> */}  
               </li>  
             ))}  
           </ul>  
         )}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

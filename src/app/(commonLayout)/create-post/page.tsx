@@ -9,7 +9,8 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
 import { toast, ToastContainer } from "react-toastify";
-import { Loader2 } from "lucide-react";
+import { Loader2, ImageDown } from "lucide-react";
+import { compressImage, formatFileSize } from "@/src/lib/compressImage";
 
 import { Button } from "@/src/components/ui/button";
 import {
@@ -41,6 +42,8 @@ const page: React.FC = () => {
   const [isPremium, setIsPremium] = useState<boolean>(false);
   const [authorId, setAuthorId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isCompressing, setIsCompressing] = useState<boolean>(false);
+  const [compressionInfo, setCompressionInfo] = useState<{ original: number; compressed: number } | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -65,9 +68,18 @@ const page: React.FC = () => {
     setCategory(e.target.value);
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    setImageFile(file);
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.files?.[0] ?? null;
+    if (!raw) return;
+
+    setIsCompressing(true);
+    setCompressionInfo(null);
+
+    const compressed = await compressImage(raw);
+
+    setCompressionInfo({ original: raw.size, compressed: compressed.size });
+    setImageFile(compressed);
+    setIsCompressing(false);
   };
 
   const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -139,7 +151,22 @@ const page: React.FC = () => {
         {/* Cover Image Area */}
         <div className="p-8 pb-4">
           <div className="flex items-center gap-4">
-            {!imageFile ? (
+            {/* ── Compressing spinner ── */}
+            {isCompressing ? (
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <div className="h-24 w-40 bg-muted rounded-md border border-border flex items-center justify-center flex-shrink-0">
+                  <Loader2 className="h-6 w-6 animate-spin text-emerald-600" />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="flex items-center gap-1 font-medium text-foreground">
+                    <ImageDown className="h-4 w-4 text-emerald-600" />
+                    Compressing image...
+                  </span>
+                  <span className="text-xs">Optimizing size automatically</span>
+                </div>
+              </div>
+            ) : !imageFile ? (
+              /* ── No image selected ── */
               <Button
                 className="text-muted-foreground border-border/80 hover:bg-muted font-medium"
                 variant="outline"
@@ -148,42 +175,53 @@ const page: React.FC = () => {
                 Add a cover image
               </Button>
             ) : (
+              /* ── Image selected & ready ── */
               <div className="flex items-center gap-4 w-full">
-                 <div className="relative h-24 w-40 bg-muted rounded-md overflow-hidden flex-shrink-0 border border-border">
-                   <img 
-                      alt="Cover Preview" 
-                      className="object-cover w-full h-full" 
-                      src={URL.createObjectURL(imageFile)}
-                   />
-                 </div>
-                 <div className="flex flex-col gap-2">
-                    <Button
-                      className="w-fit"
-                      size="sm"
-                      variant="outline"
-                      onClick={() => fileInputRef.current?.click()}
-                    >
-                      Change
-                    </Button>
-                    <Button
-                      className="w-fit text-destructive hover:text-destructive hover:bg-destructive/10"
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => {
-                        setImageFile(null);
-                        if (fileInputRef.current) fileInputRef.current.value = "";
-                      }}
-                    >
-                      Remove
-                    </Button>
-                 </div>
+                <div className="relative h-24 w-40 bg-muted rounded-md overflow-hidden flex-shrink-0 border border-border">
+                  <img
+                    alt="Cover Preview"
+                    className="object-cover w-full h-full"
+                    src={URL.createObjectURL(imageFile)}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  {/* Size badge */}
+                  {compressionInfo && (
+                    <span className="inline-flex items-center gap-1 text-xs font-medium bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 rounded-full px-2.5 py-0.5">
+                      <ImageDown className="h-3 w-3" />
+                      {formatFileSize(compressionInfo.original)}
+                      {" → "}
+                      {formatFileSize(compressionInfo.compressed)}
+                    </span>
+                  )}
+                  <Button
+                    className="w-fit"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    Change
+                  </Button>
+                  <Button
+                    className="w-fit text-destructive hover:text-destructive hover:bg-destructive/10"
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => {
+                      setImageFile(null);
+                      setCompressionInfo(null);
+                      if (fileInputRef.current) fileInputRef.current.value = "";
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </div>
               </div>
             )}
             <input
               ref={fileInputRef}
               accept="image/*"
               className="hidden"
-              disabled={isLoading}
+              disabled={isLoading || isCompressing}
               type="file"
               onChange={handleImageChange}
             />
