@@ -18,7 +18,7 @@ export default async function Home({
   });
   const data = await res.json();
   const initialPosts = data?.data?.posts || [];
-  const initialTotal = data?.data?.total  || 0;
+  const initialTotal = data?.data?.total || 0;
 
   return (
     <div className="mx-auto px-1 sm:px-4">

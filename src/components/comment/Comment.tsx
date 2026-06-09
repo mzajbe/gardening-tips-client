@@ -140,7 +140,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
         {/* <FaRegComment /> */}
 
         <MessageCircle
-          className="cursor-pointer text-white hover:text-white"
+          className="cursor-pointer "
           size={24}
           onClick={() => setIsModalOpen(true)}
         />
@@ -176,10 +176,10 @@ const CommentBtn = ({ postId }: { postId: string }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl border bg-gray-900 text-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 mb-4"
+                    className="text-lg font-medium leading-6  mb-4"
                   >
                     Comments
                   </Dialog.Title>
@@ -191,7 +191,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
                           key={comment._id}
                           className="mb-4 p-4 border rounded-md shadow-sm"
                         >
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm ">
                             <span className="font-semibold">
                               {comment.userName}
                             </span>{" "}
@@ -215,7 +215,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
                                   Save
                                 </button>
                                 <button
-                                  className="text-gray-500 hover:underline"
+                                  className=" bg-red-500 hover:underline"
                                   onClick={() => setEditingCommentId(null)}
                                 >
                                   Cancel
@@ -223,7 +223,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
                               </div>
                             </div>
                           ) : (
-                            <p className="mt-2 text-gray-800">
+                            <p className="mt-2 ">
                               {comment.content}
                             </p>
                           )}
@@ -250,7 +250,7 @@ const CommentBtn = ({ postId }: { postId: string }) => {
                         </div>
                       ))
                     ) : (
-                      <p className="text-gray-500">
+                      <p className="">
                         No comments yet. Be the first to comment!
                       </p>
                     )}
@@ -267,14 +267,14 @@ const CommentBtn = ({ postId }: { postId: string }) => {
 
                   <div className="mt-4 flex justify-end space-x-2">
                     <button
-                      className="inline-flex justify-center rounded-md border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-red-500 hover:bg-red-600 px-4 py-2 text-sm font-medium "
                       type="button"
                       onClick={() => setIsModalOpen(false)}
                     >
                       Close
                     </button>
                     <button
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-green-500 hover:bg-green-600 px-4 py-2 text-sm font-medium text-white "
                       type="button"
                       onClick={handleNewComment}
                     >

@@ -63,12 +63,15 @@ function drawAndExport(
     const targetH = Math.round(srcH * scale);
 
     const canvas = document.createElement("canvas");
+
     canvas.width = targetW;
     canvas.height = targetH;
 
     const ctx = canvas.getContext("2d");
+
     if (!ctx) {
       reject(new Error("Canvas 2D context unavailable"));
+
       return;
     }
 
@@ -79,6 +82,7 @@ function drawAndExport(
       (blob) => {
         if (blob) {
           resolve(blob);
+
           return;
         }
         // WebP not supported as output — retry with JPEG
@@ -126,7 +130,11 @@ export async function compressImage(
     return new File([blob], outName, { type: blob.type });
   } catch (err) {
     // Safety net: if compression fails for any reason, return the original
-    console.warn("[compressImage] Compression failed, using original file:", err);
+    console.warn(
+      "[compressImage] Compression failed, using original file:",
+      err,
+    );
+
     return file;
   }
 }
@@ -135,5 +143,6 @@ export async function compressImage(
 export function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }

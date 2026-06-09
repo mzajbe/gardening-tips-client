@@ -19,9 +19,16 @@ import { jwtDecode } from "jwt-decode";
 import FavouriteBtn from "@/src/components/favourite/FavouriteBtn";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import Quets from "@/src/components/quets/Quets";
 import { FaShare } from "react-icons/fa6";
-import { MoreVertical, Download, Edit, Trash, Loader2, Leaf } from "lucide-react";
+import PostContent from "@/src/components/PostContent";
+import {
+  MoreVertical,
+  Download,
+  Edit,
+  Trash,
+  Loader2,
+  Leaf,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -86,7 +93,9 @@ const Posts = ({
 
     try {
       const nextPage = page + 1;
-      const res = await fetch(`/api/proxy/posts?page=${nextPage}&limit=${LIMIT}`);
+      const res = await fetch(
+        `/api/proxy/posts?page=${nextPage}&limit=${LIMIT}`,
+      );
       const data = await res.json();
       const newPosts: any[] = data?.data?.posts || [];
       const newTotal: number = data?.data?.total ?? total;
@@ -113,7 +122,7 @@ const Posts = ({
           loadMore();
         }
       },
-      { rootMargin: "200px" } // start loading 200 px before user hits bottom
+      { rootMargin: "200px" }, // start loading 200 px before user hits bottom
     );
 
     observer.observe(sentinel);
@@ -159,8 +168,8 @@ const Posts = ({
           posts.map((post) =>
             post._id === postId
               ? { ...post, title: editTitle, content: editContent }
-              : post
-          )
+              : post,
+          ),
         );
         setEditingPostId(null);
       }
@@ -185,21 +194,25 @@ const Posts = ({
     }
   };
 
+  // see more / see less functionality handled by PostContent component
+
   // ── Filter by category (client-side) ────────────────────────────────────
   const filteredPosts =
     selectedCategory === "All"
       ? posts
       : posts.filter((post) => post.categories?.includes(selectedCategory));
 
+
+
   return (
-    <div className="flex justify-center p-0 sm:p-6 dark:bg-black">
-      <div className="w-full max-w-3xl shadow-lg rounded-lg p-2 sm:p-6">
+    <div className="flex justify-center p-0 sm:p-6 ">
+      <div className="w-full max-w-3xl shadow-lg rounded-lg p-2 sm:p-6 ">
         <div ref={postspdf}>
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post) => (
               <div
                 key={post._id}
-                className="relative p-3 sm:p-4 mb-4 sm:mb-6 shadow-md rounded-lg border border-gray-300 dark:border-gray-700 transition-transform duration-300 hover:shadow-xl"
+                className="relative p-3 sm:p-4 mb-4 sm:mb-6 shadow-md rounded-lg border border-gray-300 dark:border-gray-700 transition-transform duration-300 hover:shadow-xl "
               >
                 {/* ── Author row ── */}
                 <div className="flex items-start justify-between mb-4">
@@ -252,10 +265,7 @@ const Posts = ({
                 ) : (
                   <>
                     <h2 className="text-xl font-bold mb-2">{post.title}</h2>
-                    <div
-                      className="mt-2 mb-3"
-                      dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
+                    <PostContent content={post.content} />
                   </>
                 )}
 
@@ -264,7 +274,7 @@ const Posts = ({
                   <img
                     src={post.images[0]}
                     alt={post.title}
-                    className="w-full h-48 sm:h-64 object-cover rounded-lg mb-3"
+                    className="w-full h-48 sm:h-64 object-cover rounded-lg mb-3 "
                   />
                 )}
 
@@ -313,6 +323,13 @@ const Posts = ({
                         >
                           <Download className="w-4 h-4 mr-2" />
                           Download as PDF
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => copyToClipboard(post._id)}
+                          className="cursor-pointer"
+                        >
+                          <FaShare className="w-4 h-4 mr-2" />
+                          Share Link
                         </DropdownMenuItem>
 
                         {userId === post.author._id && (

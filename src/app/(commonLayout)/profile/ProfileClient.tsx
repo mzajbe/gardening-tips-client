@@ -20,6 +20,7 @@ import VoteButton from "../vote/VoteButton";
 
 import SavesPostsModal from "@/src/components/modal/SavesPostsModal";
 import { Button } from "@/src/components/ui/button";
+import PostContent from "@/src/components/PostContent";
 import nexiosInstance from "@/src/config/nexios.config";
 import {
   Dialog,
@@ -187,6 +188,12 @@ const ProfileClient = ({
             >
               Saved Posts
             </Button>
+            <Button
+              className="px-4 py-2 rounded"
+              
+            >
+              View Groups
+            </Button>
           </div>
 
           <div>
@@ -318,10 +325,7 @@ const ProfileClient = ({
                           <Edit className="w-5 h-5 text-gray-500 hover:text-blue-500" />
                         </Button>
                       </div>
-                      <div
-                        dangerouslySetInnerHTML={{ __html: post.content }}
-                        className=" dark:text-gray-300 mt-2"
-                      />
+                      <PostContent content={post.content} />
                     </>
                   )}
                   <div className="flex justify-between items-center mt-4">

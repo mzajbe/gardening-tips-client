@@ -7,6 +7,7 @@ import Nexios from "axios";
 
 import { Post } from "../../../types";
 
+import PostContent from "@/src/components/PostContent";
 import {
   Dialog,
   DialogContent,
@@ -64,10 +65,7 @@ const SavesPostsModal:React.FC<SavedPostsModalProps> = ({ onClose }) => {
             {savedPosts.map((post) => (  
               <li key={post._id} className="rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-800 transition-transform transform hover:scale-[1.02]">  
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{post.postId.title}</h3>  
-                <div 
-                  dangerouslySetInnerHTML={{ __html: post.postId.content }} 
-                  className="text-gray-700 dark:text-gray-300 mt-2" 
-                />
+                <PostContent content={post.postId.content} />
                 {/* <img src={post.postId.images[0]} alt="" className="w-full h-48 object-cover rounded-md my-2" /> */}  
               </li>  
             ))}  

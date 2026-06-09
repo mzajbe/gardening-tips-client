@@ -6,6 +6,7 @@ import envConfig from "@/src/config/envConfig";
 import FollowButton from "@/src/components/followButton/FollowButton";
 import VoteButton from "@/src/app/(commonLayout)/vote/VoteButton";
 import CommentBtn from "@/src/components/comment/Comment";
+import PostContent from "@/src/components/PostContent";
 
 // Define the types for Author and Post  
 interface Author {  
@@ -84,10 +85,7 @@ const UserProfilesPosts = async ({ params }: { params: { userId: string } }) => 
               <h2 className="text-xl font-bold mb-2">
                 {post.title}
               </h2>
-              <div
-                dangerouslySetInnerHTML={{ __html: post.content }}
-                className="mt-2 mb-3"
-              />
+              <PostContent content={post.content} />
 
               {post.images && post.images.length > 0 && post.images[0] && (
                 <img

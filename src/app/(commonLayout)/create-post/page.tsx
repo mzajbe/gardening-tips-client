@@ -10,8 +10,8 @@ import { useEffect, useState, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
 import { toast, ToastContainer } from "react-toastify";
 import { Loader2, ImageDown } from "lucide-react";
-import { compressImage, formatFileSize } from "@/src/lib/compressImage";
 
+import { compressImage, formatFileSize } from "@/src/lib/compressImage";
 import { Button } from "@/src/components/ui/button";
 import {
   Select,
