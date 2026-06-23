@@ -1,19 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable prettier/prettier */
-
 "use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Leaf, Mail, Lock, Loader2, UserRound } from "lucide-react";
 
-import nexiosInstance from "@/src/config/nexios.config";
 import GoogleLoginBtn from "@/src/components/shared/GoogleLoginBtn";
-import { Label } from "@/src/components/ui/label";
-import { Input } from "@/src/components/ui/input";
+import { Alert, AlertDescription } from "@/src/components/ui/alert";
 import { Button } from "@/src/components/ui/button";
 import {
   Card,
@@ -23,16 +17,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
-import { Alert, AlertDescription } from "@/src/components/ui/alert";
-
-// Define the expected structure of the response data
-interface LoginResponse {
-  success: boolean;
-  data: {
-    accessToken: string;
-  };
-  message?: string;
-}
+import { Input } from "@/src/components/ui/input";
+import { Label } from "@/src/components/ui/label";
+import {
+  decodeAccessToken,
+  getPostLoginRoute,
+  loginWithCredentials,
+} from "@/src/lib/auth";
 
 const ANONYMOUS_CREDENTIALS = {
   email: "anom@gmail.com",
@@ -42,35 +33,38 @@ const ANONYMOUS_CREDENTIALS = {
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirectPath, setRedirectPath] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    setRedirectPath(params.get("redirect"));
+  }, []);
+
   const performLogin = async (loginEmail: string, loginPassword: string) => {
-    setError(null); // Reset error message
+    setError(null);
     setIsLoading(true);
 
     try {
-      console.log("Attempting to log in...");
-      const response = await nexiosInstance.post<LoginResponse>("/auth/login", {
-        email: loginEmail,
-        password: loginPassword,
-      });
+      const { accessToken } = await loginWithCredentials(loginEmail, loginPassword);
 
-      if (response.data.success) {
-        console.log("Login successful:", response.data);
+      document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 24 * 60 * 60}`;
 
-        // Store the access token (cookie storage recommended for security)
-        document.cookie = `accessToken=${response.data.data.accessToken}; path=/; max-age=${60 * 24 * 60 * 60}`;
+      const decodedUser = decodeAccessToken(accessToken);
+      const nextRoute = getPostLoginRoute(decodedUser?.role, redirectPath);
 
-        // Redirect to the dashboard
-        router.push("/dashboard");
-      } else {
-        setError("Invalid email or password."); // Display error message
-      }
+      router.push(nextRoute);
+      router.refresh();
     } catch (error) {
       console.error("Error during login:", error);
-      setError("Something went wrong. Please try again.");
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -90,14 +84,13 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-green-200/30 dark:bg-green-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-emerald-200/30 dark:bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-200/20 dark:bg-teal-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-green-200/30 dark:bg-green-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-emerald-200/30 dark:bg-emerald-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-200/20 dark:bg-teal-500/5 rounded-full blur-3xl" />
       </div>
 
-      <Card className="w-full max-w-md relative z-10 shadow-2xl border-green-100 bg-transparent  backdrop-blur-sm">
+      <Card className="w-full max-w-md relative z-10 shadow-2xl border-green-100 bg-transparent backdrop-blur-sm">
         <CardHeader className="space-y-3 text-center">
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
             <Leaf className="w-8 h-8 text-white" />
@@ -113,7 +106,7 @@ const LoginPage = () => {
         <CardContent>
           <form className="space-y-5" onSubmit={handleLogin}>
             <div className="space-y-2">
-              <Label className=" font-medium" htmlFor="email">
+              <Label className="font-medium" htmlFor="email">
                 Email Address
               </Label>
               <div className="relative">
@@ -132,7 +125,7 @@ const LoginPage = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className=" font-medium" htmlFor="password">
+              <Label className="font-medium" htmlFor="password">
                 Password
               </Label>
               <div className="relative">
@@ -215,8 +208,8 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="mt-4">
-            <GoogleLoginBtn />
+          <div className="mt-4 w-full">
+            <GoogleLoginBtn redirectPath={redirectPath} />
           </div>
         </CardFooter>
       </Card>
@@ -225,18 +218,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-// import GoogleLoginBtn from "@/src/components/shared/GoogleLoginBtn";
-
-// const LoginPage = () => {
-//   return (
-//     <div>
-//       <h1>Login</h1>
-//       <div>
-//         <GoogleLoginBtn />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LoginPage;

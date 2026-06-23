@@ -1,103 +1,104 @@
 /* eslint-disable prettier/prettier */
-"use client";
+// /* eslint-disable prettier/prettier */
+// "use client";
 
-import {
-  CheckCheck,
-  CircleHelp,
-  Images,
-  PencilLine,
-  SunMoon,
-  Menu,
-} from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+// import {
+//   CheckCheck,
+//   CircleHelp,
+//   Images,
+//   PencilLine,
+//   SunMoon,
+//   Menu,
+// } from "lucide-react";
+// import Link from "next/link";
+// import { useEffect, useState } from "react";
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
-import { Button } from "../ui/button";
-import { Card } from "../ui/card";
-import { Separator } from "../ui/separator";
-
-
+// import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+// import { Button } from "../ui/button";
+// import { Card } from "../ui/card";
+// import { Separator } from "../ui/separator";
 
 
-interface SidebarProps {
-  className?: string;
-}
 
-const Sidebar: React.FC<SidebarProps> = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => {
-    if (isDarkMode) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [isDarkMode]);
+// interface SidebarProps {
+//   className?: string;
+// }
 
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+// const Sidebar: React.FC<SidebarProps> = () => {
+//   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const navItems = [
-    { href: "/premium", label: "Premium", icon: CheckCheck },
-    { href: "/create-post", label: "Create Post", icon: PencilLine },
-    { href: "/image-gallery", label: "Image Gallery", icon: Images },
-    { href: "/help", label: "Help", icon: CircleHelp },
-  ];
+//   useEffect(() => {
+//     if (isDarkMode) document.documentElement.classList.add("dark");
+//     else document.documentElement.classList.remove("dark");
+//   }, [isDarkMode]);
 
-  // ---- Sidebar Core ----
-  const SidebarContent = () => (
-    <Card className="w-64 h-full flex flex-col justify-between p-4 shadow-lg border-none bg-muted/30 dark:bg-muted/20 backdrop-blur-sm">
-      <nav className="space-y-4">
-        {navItems.map(({ href, label, icon: Icon }) => (
-          <Link
-            key={href}
-            className="flex items-center gap-2 text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
-            href={href}
-          >
-            <Icon className="w-5 h-5" />
-            {label}
-          </Link>
-        ))}
-      </nav>
+//   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
-      <div className="mt-6">
-        <Separator className="my-3" />
-        <Button
-          className="w-full flex items-center gap-2"
-          variant="outline"
-          onClick={toggleTheme}
-        >
-          <SunMoon className="w-4 h-4" />
-          {isDarkMode ? "Light Mode" : "Dark Mode"}
-        </Button>
-      </div>
-    </Card>
-  );
+//   const navItems = [
+//     { href: "/premium", label: "Premium", icon: CheckCheck },
+//     { href: "/create-post", label: "Create Post", icon: PencilLine },
+//     { href: "/image-gallery", label: "Image Gallery", icon: Images },
+//     { href: "/help", label: "Help", icon: CircleHelp },
+//   ];
 
-  return (
-    <>
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block sticky top-0 h-screen">
-        <SidebarContent />
-      </div>
+//   // ---- Sidebar Core ----
+//   const SidebarContent = () => (
+//     <Card className="w-64 h-full flex flex-col justify-between p-4 shadow-lg border-none bg-muted/30 dark:bg-muted/20 backdrop-blur-sm">
+//       <nav className="space-y-4">
+//         {navItems.map(({ href, label, icon: Icon }) => (
+//           <Link
+//             key={href}
+//             className="flex items-center gap-2 text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
+//             href={href}
+//           >
+//             <Icon className="w-5 h-5" />
+//             {label}
+//           </Link>
+//         ))}
+//       </nav>
 
-      {/* Mobile Sidebar */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button size="icon" variant="outline">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="p-0" side="left">
-            <SheetHeader className="p-4">
-              <SheetTitle className="text-xl font-bold">Menu</SheetTitle>
-            </SheetHeader>
-            <div className="p-4">
-              <SidebarContent />
-            </div>
-          </SheetContent>
-        </Sheet>
-      </div>
-    </>
-  );
-};
+//       <div className="mt-6">
+//         <Separator className="my-3" />
+//         <Button
+//           className="w-full flex items-center gap-2"
+//           variant="outline"
+//           onClick={toggleTheme}
+//         >
+//           <SunMoon className="w-4 h-4" />
+//           {isDarkMode ? "Light Mode" : "Dark Mode"}
+//         </Button>
+//       </div>
+//     </Card>
+//   );
 
-export default Sidebar;
+//   return (
+//     <>
+//       {/* Desktop Sidebar */}
+//       <div className="hidden lg:block sticky top-0 h-screen">
+//         <SidebarContent />
+//       </div>
+
+//       {/* Mobile Sidebar */}
+//       <div className="lg:hidden fixed top-4 left-4 z-50">
+//         <Sheet>
+//           <SheetTrigger asChild>
+//             <Button size="icon" variant="outline">
+//               <Menu className="h-5 w-5" />
+//             </Button>
+//           </SheetTrigger>
+//           <SheetContent className="p-0" side="left">
+//             <SheetHeader className="p-4">
+//               <SheetTitle className="text-xl font-bold">Menu</SheetTitle>
+//             </SheetHeader>
+//             <div className="p-4">
+//               <SidebarContent />
+//             </div>
+//           </SheetContent>
+//         </Sheet>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default Sidebar;

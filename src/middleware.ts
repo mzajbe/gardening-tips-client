@@ -1,44 +1,54 @@
-/* eslint-disable prettier/prettier */
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 import { decode } from "./helpers/jwtHelpers";
 
-/* eslint-disable prettier/prettier */
-
 const authRoutes = ["/login", "/signup"];
 
 export async function middleware(request: NextRequest) {
-  console.log(request, "middleware");
-
   const { pathname } = request.nextUrl;
+  const accessToken = request.cookies.get("accessToken")?.value;
 
-  const accessToken = cookies().get("accessToken")?.value;
-
-  //protecting hybrid routes
   if (!accessToken) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
-    } else {
-      return NextResponse.redirect(
-        new URL(
-          pathname ? `/login?redirect=${pathname}` : "/login",
-          request.url
-        )
-      );
     }
+
+    return NextResponse.redirect(
+      new URL(pathname ? `/login?redirect=${pathname}` : "/login", request.url)
+    );
   }
 
-  //rolebase authorization
   let decodedToken = null;
 
-  decodedToken = decode(accessToken) as any;
+  try {
+    decodedToken = decode(accessToken) as any;
+  } catch (error) {
+    console.error("Invalid access token in middleware:", error);
+    const response = NextResponse.redirect(new URL("/login", request.url));
+
+    response.cookies.delete("accessToken");
+    return response;
+  }
 
   const role = decodedToken?.role;
+  const dashboardRoute = role === "admin" ? "/admin-dashboard" : "/dashboard";
 
-  if (role === "admin" && pathname.match(/^\/admin-dashboard/) ) {
+  if (authRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL(dashboardRoute, request.url));
+  }
+
+  if (role === "admin" && pathname.match(/^\/dashboard/)) {
+    return NextResponse.redirect(new URL("/admin-dashboard", request.url));
+  }
+
+  if (role === "user" && pathname.match(/^\/admin-dashboard/)) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  if (role === "admin" && pathname.match(/^\/admin-dashboard/)) {
     return NextResponse.next();
   }
+
   if (role === "user" && pathname.match(/^\/dashboard/)) {
     return NextResponse.next();
   }
@@ -47,11 +57,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/login",
-    "/signup",
-    // "/profile",
-    "/dashboard/:page*",
-    "/admin-dashboard/:page*",
-  ],
+  matcher: ["/login", "/signup", "/dashboard/:page*", "/admin-dashboard/:page*"],
 };

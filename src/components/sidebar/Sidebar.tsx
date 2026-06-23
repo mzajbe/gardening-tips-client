@@ -1,24 +1,32 @@
-/* eslint-disable prettier/prettier */
 "use client";
 
-import { jwtDecode } from "jwt-decode";
 import {
   BadgeCheck,
   CheckCheck,
   CircleHelp,
   Images,
   Loader2,
+  Menu,
   PencilLine,
   Sparkles,
-  Menu,
   UserRound,
-  X,
   Users,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import {
+  decodeAccessToken,
+  getAccessTokenFromBrowser,
+  getDashboardRouteByRole,
+  loginWithCredentials,
+} from "@/src/lib/auth";
+import { cn } from "@/src/lib/utils";
+
+import { Button } from "../ui/button";
+import { Card } from "../ui/card";
 import {
   Sheet,
   SheetContent,
@@ -26,11 +34,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { Button } from "../ui/button";
-import { Card } from "../ui/card";
-
-import nexiosInstance from "@/src/config/nexios.config";
-import { cn } from "@/src/lib/utils";
 
 interface SidebarProps {
   className?: string;
@@ -43,53 +46,38 @@ interface SidebarUser {
   profilePicture?: string;
 }
 
-interface LoginResponse {
-  success: boolean;
-  data: {
-    accessToken: string;
-  };
-}
-
 const ANONYMOUS_CREDENTIALS = {
   email: "anom@gmail.com",
   password: "anom1324",
 };
 
 const Sidebar: React.FC<SidebarProps> = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const pathname = usePathname();
-  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState<SidebarUser | null>(null);
   const [isAnonymousLoginLoading, setIsAnonymousLoginLoading] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    const hasToken = document.cookie.split(';').some(row => row.trim().startsWith('accessToken='));
-
-    setIsLoggedIn(hasToken);
+    setIsLoggedIn(Boolean(getAccessTokenFromBrowser()));
   }, [pathname]);
 
   useEffect(() => {
     const fetchSidebarUser = async () => {
       try {
-        const accessToken = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("accessToken="))
-          ?.split("=")[1];
+        const accessToken = getAccessTokenFromBrowser();
 
         if (!accessToken) {
           setUserInfo(null);
-
           return;
         }
 
-        const decodedToken: any = jwtDecode(accessToken);
-        const userId = decodedToken._id;
+        const decodedToken = decodeAccessToken(accessToken);
+        const userId = decodedToken?._id;
 
         if (!userId) {
           setUserInfo(null);
-
           return;
         }
 
@@ -115,12 +103,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
     fetchSidebarUser();
   }, [pathname]);
 
-  useEffect(() => {
-    if (isDarkMode) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [isDarkMode]);
-
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const isAnonymousUser = userInfo?.email === "anom@gmail.com";
   const userInitial =
@@ -132,18 +114,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
     try {
       setIsAnonymousLoginLoading(true);
 
-      const response = await nexiosInstance.post<LoginResponse>("/auth/login", {
-        email: ANONYMOUS_CREDENTIALS.email,
-        password: ANONYMOUS_CREDENTIALS.password,
-      });
+      const { accessToken } = await loginWithCredentials(
+        ANONYMOUS_CREDENTIALS.email,
+        ANONYMOUS_CREDENTIALS.password
+      );
 
-      if (!response.data.success) {
-        throw new Error("Anonymous login failed");
-      }
-
-      document.cookie = `accessToken=${response.data.data.accessToken}; path=/; max-age=${60 * 24 * 60 * 60}`;
+      document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 24 * 60 * 60}`;
+      const decodedUser = decodeAccessToken(accessToken);
       setIsLoggedIn(true);
-      router.push("/dashboard");
+      router.push(getDashboardRouteByRole(decodedUser?.role));
       router.refresh();
     } catch (error) {
       console.error("Error during anonymous login:", error);
@@ -154,13 +133,14 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   const navItems = [
     { href: "/premium", label: "Premium", icon: CheckCheck },
-    ...(isLoggedIn ? [{ href: "/create-post", label: "Create Post", icon: PencilLine }] : []),
+    ...(isLoggedIn
+      ? [{ href: "/create-post", label: "Create Post", icon: PencilLine }]
+      : []),
     { href: "/groups", label: "Groups", icon: Users },
     { href: "/image-gallery", label: "Image Gallery", icon: Images },
     { href: "/help", label: "Help", icon: CircleHelp },
   ];
 
-  // ---- Sidebar Core ----
   const SidebarContent = () => (
     <Card className="w-64 h-full flex flex-col justify-between py-6 px-4 shadow-xl border-r border-border/50 bg-background/95 dark:bg-muted/10 backdrop-blur-md rounded-none transition-all duration-300">
       <div>
@@ -251,57 +231,40 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 )}
                 href={href}
               >
-                <Icon className={cn("w-5 h-5", isActive ? "text-emerald-600 dark:text-emerald-300" : "opacity-70")} />
+                <Icon
+                  className={cn(
+                    "w-5 h-5",
+                    isActive
+                      ? "text-emerald-600 dark:text-emerald-300"
+                      : "opacity-70"
+                  )}
+                />
                 {label}
               </Link>
             );
           })}
         </nav>
       </div>
-
-      {/* <div className="mt-6">
-        <Separator className="my-3" />
-        <Button
-          onClick={toggleTheme}
-          variant="outline"
-          className="w-full flex items-center gap-2 mb-20"
-        >
-          <SunMoon className="w-4 h-4" />
-          {isDarkMode ? "Light Mode" : "Dark Mode"}
-        </Button>
-      </div> */}
     </Card>
   );
 
   return (
     <>
-      {/* Desktop toggle button (top-left corner) */}
-      <div className="hidden lg:flex items-center gap-2 fixed top-4 left-4 z-50 ">
-        <Button
-          className="shadow-sm"
-          size="icon"
-          variant="outline"
-          onClick={toggleSidebar}
-        >
-          {isSidebarOpen ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
+      <div className="hidden lg:flex items-center gap-2 fixed top-4 left-4 z-50">
+        <Button className="shadow-sm" size="icon" variant="outline" onClick={toggleSidebar}>
+          {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
       </div>
 
-      {/* Desktop Sidebar */}
       <div
         className={cn(
-          "hidden lg:block fixed top-0 left-0 h-screen transition-all duration-300 z-40  mt-16",
+          "hidden lg:block fixed top-0 left-0 h-screen transition-all duration-300 z-40 mt-16",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <SidebarContent />
       </div>
 
-      {/* Mobile Sidebar (Sheet Drawer) */}
       <div className="lg:hidden fixed top-3.5 left-3 z-50">
         <Sheet>
           <SheetTrigger asChild>
