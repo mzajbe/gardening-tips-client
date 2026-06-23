@@ -313,17 +313,19 @@ const ProfileClient = ({
                     <>
                       <div className="flex justify-between items-start">
                         <h3 className="text-xl font-semibold ">{post.title}</h3>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          onClick={() => {
-                            setEditingPostId(post._id);
-                            setEditTitle(post.title);
-                            setEditContent(post.content);
-                          }}
-                        >
-                          <Edit className="w-5 h-5 text-gray-500 hover:text-blue-500" />
-                        </Button>
+                        {!post.isGroupPost && (
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => {
+                              setEditingPostId(post._id);
+                              setEditTitle(post.title);
+                              setEditContent(post.content);
+                            }}
+                          >
+                            <Edit className="w-5 h-5 text-gray-500 hover:text-blue-500" />
+                          </Button>
+                        )}
                       </div>
                       <PostContent content={post.content} />
                     </>
@@ -343,7 +345,7 @@ const ProfileClient = ({
                       src={post.images[0]}
                     />
                   )}
-                  <VoteButton postId={post._id} />
+                  {!post.isGroupPost && <VoteButton postId={post._id} />}
                 </div>
               ))}
             </div>
@@ -364,3 +366,4 @@ const ProfileClient = ({
 };
 
 export default ProfileClient;
+

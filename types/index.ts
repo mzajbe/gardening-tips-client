@@ -6,13 +6,14 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 };
 
 
-export interface Post {  
-  _id: string; // Unique identifier for the post  
-  title: string; // Title of the post  
-  content: string; // Content of the post  
-  categories: string[]; // Array of categories  
-  images: string[]; // Array of image URLs  
-  createdAt: string; // Creation date in ISO format  
-  postId:any;
-  data:any;
+export interface Post {
+  _id: string;
+  title: string;
+  content: string;
+  categories: string[];
+  images: string[];
+  createdAt: string;
+  postId: any;
+  data: any;
+  isGroupPost?: boolean;
 }

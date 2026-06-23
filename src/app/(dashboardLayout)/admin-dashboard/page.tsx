@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FileText, LayoutDashboard, UserPlus, Users } from "lucide-react";
 
+import AdminVideoManagement from "@/src/components/admin/AdminVideoManagement";
 import { Button } from "@/src/components/ui/button";
 import {
   Card,
@@ -23,6 +24,28 @@ type AdminOverviewResponse = {
   };
 };
 
+type VideoItem = {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  youtubeUrl: string;
+  youtubeVideoId: string;
+  thumbnailUrl: string;
+  viewCount: number;
+};
+
+type VideoResponse = {
+  success: boolean;
+  data: {
+    videos: VideoItem[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+};
+
 const AdminDashboardPage = async () => {
   const accessToken = cookies().get("accessToken")?.value;
   const decodedUser = decodeAccessToken(accessToken);
@@ -31,18 +54,27 @@ const AdminDashboardPage = async () => {
     redirect("/login?redirect=/admin-dashboard");
   }
 
-  const response = await fetch(`${envConfig.baseApi}/users/admin/overview`, {
-    cache: "no-store",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const [overviewResponse, videosResponse] = await Promise.all([
+    fetch(`${envConfig.baseApi}/users/admin/overview`, {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }),
+    fetch(`${envConfig.baseApi}/videos?page=1&limit=100`, { cache: "no-store" }),
+  ]);
 
-  if (!response.ok) {
+  if (!overviewResponse.ok) {
     throw new Error("Failed to load admin overview");
   }
 
-  const overview: AdminOverviewResponse = await response.json();
+  if (!videosResponse.ok) {
+    throw new Error("Failed to load videos for management");
+  }
+
+  const overview: AdminOverviewResponse = await overviewResponse.json();
+  const videosResult: VideoResponse = await videosResponse.json();
+
   const stats = [
     {
       title: "Total Users",
@@ -78,7 +110,7 @@ const AdminDashboardPage = async () => {
                 Admin Dashboard
               </h1>
               <p className="text-sm text-muted-foreground">
-                Monitor the platform with a quick snapshot of users and content.
+                Manage your gardening community and educational learning center.
               </p>
             </div>
           </div>
@@ -108,6 +140,10 @@ const AdminDashboardPage = async () => {
             </CardContent>
           </Card>
         ))}
+      </section>
+
+      <section className="rounded-3xl border bg-card/70 p-4 shadow-sm sm:p-6">
+        <AdminVideoManagement initialVideos={videosResult.data.videos} />
       </section>
     </div>
   );

@@ -39,7 +39,7 @@ export default async function ProfilePage() {
   let postsData = [];
 
   try {
-    const [userRes, followRes, followingRes, postsRes] = await Promise.all([
+    const [userRes, followRes, followingRes, postsRes, groupPostsRes] = await Promise.all([
       fetch(`${envConfig.baseApi}/users/${userId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         cache: "no-store",
@@ -56,19 +56,41 @@ export default async function ProfilePage() {
         headers: { Authorization: `Bearer ${accessToken}` },
         cache: "no-store",
       }),
+      fetch(`${envConfig.baseApi}/groups/posts/user/${userId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        cache: "no-store",
+      }),
     ]);
 
-    const [userJson, followJson, followingJson, postsJson] = await Promise.all([
+    const [userJson, followJson, followingJson, postsJson, groupPostsJson] = await Promise.all([
       userRes.ok ? userRes.json() : Promise.resolve({}),
       followRes.ok ? followRes.json() : Promise.resolve({}),
       followingRes.ok ? followingRes.json() : Promise.resolve({}),
       postsRes.ok ? postsRes.json() : Promise.resolve({}),
+      groupPostsRes.ok ? groupPostsRes.json() : Promise.resolve({}),
     ]);
 
     userData = userJson?.data || null;
     followersData = followJson?.data?.length || 0;
     followingData = followingJson?.count || 0;
-    postsData = postsJson?.data || [];
+
+    const regularPosts = postsJson?.data || [];
+    const groupPosts = (groupPostsJson?.data || []).map((post: any) => ({
+      _id: post._id,
+      title: `Group: ${post?.group?.name || "Community"}`,
+      content: post.content,
+      categories: ["Group Post"],
+      images: post.image ? [post.image] : [],
+      createdAt: post.createdAt,
+      postId: post._id,
+      data: post,
+      isGroupPost: true,
+    }));
+
+    postsData = [...regularPosts, ...groupPosts].sort(
+      (a: any, b: any) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
   } catch (error) {
     console.error("Error fetching profile data on server:", error);
   }

@@ -11,6 +11,7 @@ import {
   Sparkles,
   UserRound,
   Users,
+  Video,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -137,6 +138,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
       ? [{ href: "/create-post", label: "Create Post", icon: PencilLine }]
       : []),
     { href: "/groups", label: "Groups", icon: Users },
+    { href: "/videos", label: "Videos", icon: Video },
     { href: "/image-gallery", label: "Image Gallery", icon: Images },
     { href: "/help", label: "Help", icon: CircleHelp },
   ];
