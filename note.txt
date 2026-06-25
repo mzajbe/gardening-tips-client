@@ -1,0 +1,4 @@
+admin login credential:
+
+admin@gmail.com
+admin123
